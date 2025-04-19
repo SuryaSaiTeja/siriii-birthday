@@ -124,6 +124,22 @@
       z-index: 2;
       margin-top: 2rem;
     }
+    .btn {
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background: #a33e3e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      animation: fadeIn 1.2s ease-in-out forwards;
+      animation-delay: 4s;
+    }
+    .btn:hover {
+      background-color: #8e6b4d;
+    }
     #reveal {
       margin-top: 2rem;
       padding: 0.8rem 1.6rem;
@@ -195,6 +211,7 @@
       width: 100%;
       border-radius: 12px;
     }
+    
   </style>
 </head>
 <body>
@@ -227,6 +244,8 @@
   <div id="final-message">The world is lucky to have you. And me? Even luckier to know you 💕</div>
   <br/><br/>
   <div class="footer">Crafted with love &lt;/&gt; by Suriya (someone who truly cares) 💛</div>
+
+  <button class="btn" onclick="startAgain()">Play Again</button>
   <script>
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
@@ -318,6 +337,10 @@
     
     function showFinalMessage() {
       document.getElementById('final-message').style.display = 'block';
+    }
+
+    function startAgain() {
+      window.location.href = 'start.html';
     }
 
     for (let i = 0; i < 30; i++) {
