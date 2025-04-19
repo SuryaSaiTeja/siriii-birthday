@@ -102,6 +102,27 @@
       }
     }
 
+    .bounce-reveal {
+      animation: bounceFadeIn 0.8s ease forwards;
+    }
+
+    @keyframes bounceFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+
 
 
     @keyframes shake {
@@ -174,7 +195,7 @@
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
       "Podukuni aadutunnava? 😴 Leguuu",
       "Asssalu Kadhu, musukuni malli try chey 😂",
-      "Kaane kadhu. Konchem burra petti aalochinchu 🧠",
+      "Kaane kadhu. Konchem burra vaadu 🧠",
       "kadupu ki annam thintunnava gaddi thintunnava ? Entaa answers ? 🔪",
       "Nuvvu cheppina answer vinagane server crash ayyindi 🖥️",
       "Adhi kooda guess cheyyalekapothe ela ?? 🤔"
@@ -184,15 +205,28 @@
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'echo') {
-        response.textContent = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
-        showMemeToast(response.textContent);
+        const msg = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
+        //response.textContent = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
+        showMemeToast(msg);
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth; // this line triggers reflow
+          response.classList.add('bounce-reveal');
+        }, 2000);
         setTimeout(() => {
           window.location.href = 'clue2.html';
-        }, 1500);
+        }, 3000);
       } else {
-        
-        response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
-        showMemeToast(response.textContent);
+        const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        //response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        showMemeToast(msg);
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth; // this line triggers reflow
+          response.classList.add('bounce-reveal');
+        }, 2000);
         document.getElementById('answer').classList.add('shake');
         setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
       }
@@ -206,6 +240,9 @@
       document.body.appendChild(toast);
       setTimeout(() => {
         toast.remove();
+        if (typeof callback === 'function') {
+          callback();
+        }
       }, 3000);
     }
 
