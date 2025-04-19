@@ -62,6 +62,48 @@
       opacity: 0.8;
     }
 
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffefdc;
+      color: #3e2c23;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      z-index: 10000;
+      animation: fadeInOut 3s ease-in-out;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+    }
+
+
+
     @keyframes shake {
       0% {
         transform: translateX(0);
@@ -127,7 +169,7 @@
   </div>
   <div class="footer">Hint: I'm often heard but never seen 👻</div>
   <script>
-    
+
     const wrongAnswers = [
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
       "Podukuni aadutunnava? 😴 Leguuu",
@@ -143,17 +185,29 @@
       const response = document.getElementById('response');
       if (input === 'echo') {
         response.textContent = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
+        showMemeToast(response.textContent);
         setTimeout(() => {
           window.location.href = 'clue2.html';
         }, 1500);
       } else {
+        
         response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        showMemeToast(response.textContent);
         document.getElementById('answer').classList.add('shake');
         setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
       }
     }
 
-
+    function showMemeToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      //toast.textContent = wrongAnswers[Math.floor(Math.random() * memeDialogues.length)];
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+      }, 3000);
+    }
 
     const music = document.getElementById('bg-music');
     const muteBtn = document.getElementById('mute-btn');
