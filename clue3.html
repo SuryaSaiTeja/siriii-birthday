@@ -153,18 +153,17 @@
       const response = document.getElementById('response');
       if (input === 'keyboard') {
         response.textContent = '🎉 Nailed it! Moving to your next clue...';
+        const music = document.getElementById('bg-music');
+        if (music) {
+          music.pause();
+          music.currentTime = 0;
+        }
         setTimeout(() => {
           if (window.audioWindow && !window.audioWindow.closed) {
             window.audioWindow.close();
           }
           window.location.href = 'intermediate2.html';
         }, 1500);
-
-        const music = document.getElementById('bg-music');
-        if (music) {
-          music.pause();
-          music.currentTime = 0;
-        }
 
       } else {
         response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
