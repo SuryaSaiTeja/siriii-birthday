@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +12,7 @@
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Roboto Mono', monospace;
       background: linear-gradient(to bottom, #fdf6f0, #f4e1d2);
@@ -24,14 +26,17 @@
       text-align: center;
       overflow: hidden;
     }
+
     .loader {
       font-size: 1.5rem;
       color: #a07c5e;
       animation: fadeIn 1s ease-in-out forwards;
     }
+
     .content {
       display: none;
     }
+
     h1 {
       font-family: 'Great Vibes', cursive;
       font-size: 2.5rem;
@@ -39,13 +44,16 @@
       color: #a07c5e;
       animation: fadeIn 2s ease-in-out forwards;
     }
-    .message, .reveal {
+
+    .message,
+    .reveal {
       font-size: 1.1rem;
       max-width: 90%;
       margin: 1rem auto;
       opacity: 0;
       animation: fadeInUp 1.2s ease-in-out forwards;
     }
+
     .reveal {
       font-size: 1.6rem;
       font-weight: bold;
@@ -53,6 +61,7 @@
       margin-top: 2rem;
       animation-delay: 2.5s;
     }
+
     .btn {
       margin-top: 2rem;
       padding: 0.8rem 1.5rem;
@@ -67,9 +76,11 @@
       animation: fadeIn 1.2s ease-in-out forwards;
       animation-delay: 4s;
     }
+
     .btn:hover {
       background-color: #8e6b4d;
     }
+
     .sparkle {
       position: absolute;
       width: 8px;
@@ -78,26 +89,52 @@
       border-radius: 50%;
       animation: sparkle 3s infinite ease-in-out;
     }
+
     @keyframes sparkle {
-      0%, 100% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(1.5); opacity: 1; }
+
+      0%,
+      100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
     }
+
     @keyframes fadeIn {
-      to { opacity: 1; }
+      to {
+        opacity: 1;
+      }
     }
+
     @keyframes fadeInUp {
-      0% { opacity: 0; transform: translateY(20px); }
-      100% { opacity: 1; transform: translateY(0); }
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
+
 <body>
+  <audio id="preload-music" autoplay loop>
+    <source src="birthday.mp3" type="audio/mpeg">
+  </audio>
+
   <div class="loader" id="loader">🔓 Unlocking the treasure...</div>
 
   <div class="content" id="content">
     <h1>✨ The Final Treasure ✨</h1>
-    <p class="message" >You followed the clues, solved every riddle...</p>
-    <p class="message" >And now, you've reached the end.</p>
+    <p class="message">You followed the clues, solved every riddle...</p>
+    <p class="message">And now, you've reached the end.</p>
     <div class="reveal">The treasure is... <br><span style="font-size: 2rem; color: #d49c6c;">You 💛</span></div>
     <button class="btn" onclick="goToFinal()">Tap Here</button>
     <div class="footer" style="margin-top: 3rem; font-size: 0.9rem; color: #856c5a; opacity: 0.8;">
@@ -107,13 +144,13 @@
 
   <script>
     setTimeout(() => {
-  requestAnimationFrame(() => {
-    const loader = document.getElementById('loader');
-    const content = document.getElementById('content');
-    loader.style.display = 'none';
-    content.style.display = 'block';
-  });
-}, 3000);
+      requestAnimationFrame(() => {
+        const loader = document.getElementById('loader');
+        const content = document.getElementById('content');
+        loader.style.display = 'none';
+        content.style.display = 'block';
+      });
+    }, 3000);
 
 
     // Sparkles
@@ -126,13 +163,14 @@
       document.body.appendChild(sparkle);
     }
 
-    function replay() {
-      window.location.href = "siriiiiii.html";
-    }
-
     function goToFinal() {
-      window.location.href = 'siri_new.html';
+      const audio = document.getElementById('preload-music');
+      audio.play().catch(() => { });
+      setTimeout(() => {
+        window.location.href = 'siri_new.html';
+      }, 300);
     }
   </script>
 </body>
+
 </html>
