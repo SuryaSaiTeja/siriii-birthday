@@ -16,8 +16,10 @@
     }
     html, body {
       font-family: 'Quicksand', Bold;
-      background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.7)), url('siripic1.jpeg') no-repeat center -300px;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.7)), url('siripic1.jpeg') no-repeat center center;
       background-size: cover;
+      background-attachment: fixed;
+      background-position: center center;
       color: #3e2c23;
       min-height: 100vh;
       width: 100%;
@@ -185,7 +187,7 @@
   <div class="easter-egg" id="easter-egg">🥳 Surprise! You just found a secret message: You're magical. ✨<br/>Hint: Press any key 👀</div>
   <div class="console" id="console"></div>
   <button id="reveal" onclick="showFinalMessage()">You know what ?</button>
-  <div id="final-message">The world is lucky to have you. And me? Even luckier to know you. 💕</div>
+  <div id="final-message">The world is lucky to have you. And me? Even luckier to know you 💕</div>
   <div class="footer">Crafted with love &lt;/&gt; by Suriya (someone who truly cares) 💛</div>
   <script>
     const canvas = document.getElementById('confetti-canvas');
