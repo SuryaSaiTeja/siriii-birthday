@@ -454,13 +454,15 @@
             document.body.appendChild(sparkle);
         }
 
-        document.addEventListener('click', () => {
+        /*document.addEventListener('click', () => {
             music.play().catch(() => { });
-        }, { once: true });
+        }, { once: true });*/
 
         window.addEventListener("load", () => {
             // Try to autoplay music on load
-            music.play().catch(() => { });
+            music.play().catch((e) => {
+                console.log('Autoplay blocked, will play on click.');
+            });
             launchPoppers();
         });
 
@@ -480,9 +482,9 @@
         });
 
         // Fallback: try play on user click too
-        document.addEventListener('click', () => {
+        /*document.addEventListener('click', () => {
             music.play().catch(() => { });
-        }, { once: true });
+        }, { once: true });*/
 
         function launchPoppers(count = 100) {
             const emojis = ["🎉", "🎊", "🥳", "✨"];
@@ -502,6 +504,7 @@
         }
 
         window.addEventListener('scroll', () => {
+
             const indicator = document.getElementById('scroll-indicator');
             if (window.scrollY > 80) {
                 indicator.style.opacity = '0';
@@ -509,7 +512,9 @@
                 indicator.style.opacity = '0.7';
             }
         });
-
+        window.addEventListener('scroll', () => {
+            music.play().catch(() => { });
+        }, { once: true });
 
 
     </script>
