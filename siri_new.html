@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Siriiiii</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://api.fontshare.com/v2/css?f[]=neue-machina@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    html, body {
+      font-family: 'Quicksand', Bold;
+      background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.7)), url('siripic1.jpeg') no-repeat center -300px;
+      background-size: cover;
+      color: #3e2c23;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    html::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, rgba(255, 255, 255, 0.25), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 600px;
+      z-index: 2;
+    }
+    .message {
+      max-width: 95%;
+      font-size: 1rem;
+      line-height: 1.6;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      animation: fadeIn 2s ease-in-out forwards 1s;
+      margin-bottom: 2rem;
+      z-index: 2;
+    }
+    .footer {
+      margin-top: auto;
+      font-size: 0.85rem;
+      color: #7c6f63;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-width: 90%;
+      z-index: 2;
+    }
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .easter-egg {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      font-size: 0.8rem;
+      color: #856c5a;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.8rem;
+      border-radius: 8px;
+      animation: fadeIn 1s ease-in-out forwards;
+      max-width: 200px;
+      text-align: left;
+      z-index: 1000;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .balloon {
+      position: absolute;
+      width: 30px;
+      height: 45px;
+      background: #e2b89c;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: float 6s ease-in-out infinite;
+    }
+    .console {
+      width: 100%;
+      max-width: 600px;
+      background: #2e2e2e;
+      color: #00ff90;
+      padding: 1rem;
+      font-size: 0.75rem;
+      border-radius: 8px;
+      text-align: left;
+      font-family: 'Courier New', Courier, monospace;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      overflow-y: visible;
+      z-index: 2;
+      margin-top: 2rem;
+    }
+    #reveal {
+      margin-top: 2rem;
+      padding: 0.8rem 1.6rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 12px;
+      background: #a33e3e;
+      color: #fff;
+      cursor: pointer;
+      animation: fadeIn 2s ease-in-out forwards 3s;
+    }
+    #final-message {
+      display: none;
+      margin-top: 0.5rem;
+      font-size: 1rem;
+      background-color: rgba(255,255,255,0.85);
+      padding: 1rem;
+      border-radius: 12px;
+      animation: fadeInUp 2s ease-in-out forwards;
+    }
+    audio {
+      display: none;
+    }
+    @keyframes float {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-40px); }
+      100% { transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .message {
+        font-size: 1.2rem;
+      }
+      .console {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="your-music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <canvas class="confetti" id="confetti-canvas"></canvas>
+  <h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
+  <p class="message">
+    On this special day, I just want to take a moment to celebrate the amazing person you are.
+    <br/><br/>
+    (Insert heartfelt message here)
+    <br/><br/>
+    May your day be filled with warmth, smiles, and everything that makes you feel loved. You deserve it all.
+  </p>
+  <div class="easter-egg" id="easter-egg">🥳 Surprise! You just found a secret message: You're magical. ✨<br/>Hint: Press any key 👀</div>
+  <div class="console" id="console"></div>
+  <button id="reveal" onclick="showFinalMessage()">You know what ?</button>
+  <div id="final-message">The world is lucky to have you. And me? Even luckier to know you. 💕</div>
+  <div class="footer">Crafted with love &lt;/&gt; by Suriya (someone who truly cares) 💛</div>
+  <script>
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    let confetti = Array.from({ length: 150 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height - height,
+      r: Math.random() * 6 + 2,
+      d: Math.random() * 2 + 1,
+      color: `hsl(${Math.random() * 360}, 70%, 60%)`
+    }));
+    function drawConfetti() {
+      ctx.clearRect(0, 0, width, height);
+      confetti.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      });
+    }
+    function updateConfetti() {
+      confetti.forEach(p => {
+        p.y += p.d;
+        if (p.y > height) {
+          p.y = -10;
+          p.x = Math.random() * width;
+        }
+      });
+    }
+    function animate() {
+      drawConfetti();
+      updateConfetti();
+      requestAnimationFrame(animate);
+    }
+    animate();
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+    function revealSecret() {
+      const egg = document.getElementById('easter-egg');
+      egg.style.display = 'block';
+    }
+    for (let i = 0; i < 6; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = `${Math.random() * 100}%`;
+      balloon.style.background = `hsl(${Math.random() * 360}, 70%, 70%)`;
+      balloon.style.animationDuration = `${5 + Math.random() * 5}s`;
+      document.body.appendChild(balloon);
+    }
+    const consoleEl = document.getElementById('console');
+    const lines = [
+  '> Initializing Birthday Protocol... ✅',
+  '> Connecting to the Heartbeat Network 💓',
+  '> echo "Happy Birthday Siriiiii!" 🎂',
+  '> Compiling smiles... 😊',
+  '> Deploying hugs && kisses 💌',
+  '> Status: You are the best gift ever 🎁',
+  '> Processing cute memories... 📸',
+  '> Adding sparkle to your smile ✨',
+  '> Injecting unlimited love... 💖',
+  '> Birthday wish signed with a kiss 😘',
+  '> You light up every line of this code 💫',
+  '> Final Output: You are everything. 💛'
+];
+    let i = 0;
+    function typeLine() {
+      if (i < lines.length) {
+        const line = document.createElement('div');
+        line.textContent = lines[i++];
+        consoleEl.appendChild(line);
+        setTimeout(typeLine, 1000);
+      }
+    }
+    typeLine();
+    document.addEventListener('keydown', () => {
+      confetti.forEach(p => {
+        p.y = Math.random() * height;
+        p.x = Math.random() * width;
+      });
+    });
+
+    function showFinalMessage() {
+      document.getElementById('final-message').style.display = 'block';
+    }
+
+    for (let i = 0; i < 30; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.animationDelay = (Math.random() * 5) + 's';
+      document.body.appendChild(sparkle);
+    }
+  </script>
+</body>
+</html>
