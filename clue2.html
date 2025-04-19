@@ -125,18 +125,6 @@
   </div>
   <div class="footer">Hint: I'm often found in cozy firesides 🔥</div>
   <script>
-    function checkAnswer() {
-      const input = document.getElementById('answer').value.toLowerCase().trim();
-      const response = document.getElementById('response');
-      if (input === 'fire') {
-        response.textContent = 'Correct! Moving to the next clue...';
-        setTimeout(() => {
-          window.location.href = 'clue3.html';
-        }, 1500);
-      } else {
-        response.textContent = 'Hmm, not quite. Try again!';
-      }
-    }
 
     const wrongAnswers = [
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
@@ -152,7 +140,7 @@
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'fire') {
-        response.textContent = '🎉 Nailed it! Moving to your next clue...';
+        response.textContent = 'Parledu, paiki ostav 👍👍👍';
         setTimeout(() => {
           window.location.href = 'clue3.html';
         }, 1500);
