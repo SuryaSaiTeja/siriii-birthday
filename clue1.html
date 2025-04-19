@@ -127,19 +127,7 @@
   </div>
   <div class="footer">Hint: I'm often heard but never seen 👻</div>
   <script>
-    function checkAnswer() {
-      const input = document.getElementById('answer').value.toLowerCase().trim();
-      const response = document.getElementById('response');
-      if (input === 'echo') {
-        response.textContent = 'Correct! Moving to the next clue...';
-        setTimeout(() => {
-          window.location.href = 'clue2.html';
-        }, 1500);
-      } else {
-        response.textContent = 'Hmm, not quite. Try again!';
-      }
-    }
-
+    
     const wrongAnswers = [
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
       "Podukuni aadutunnava? 😴 Leguuu",
@@ -154,7 +142,7 @@
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'echo') {
-        response.textContent = '🎉 Nailed it! Moving to your next clue...';
+        response.textContent = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
         setTimeout(() => {
           window.location.href = 'clue2.html';
         }, 1500);
