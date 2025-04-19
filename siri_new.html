@@ -178,7 +178,7 @@
   <canvas class="confetti" id="confetti-canvas"></canvas>
   <h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
   <div class="console" id="console"></div>
-  <p class="message" id="birthday-message">
+  <p class="message" id="birthday-message" style="display: none; opacity: 0; transition: opacity 1.5s ease;">
     Today is the day the world got a little brighter, funnier, and way more lovable — because it's your birthday! 🎈
     On this special day, I just want to take a moment to celebrate the amazing person you are.
     <br/>
@@ -271,6 +271,10 @@
         line.textContent = lines[i++];
         consoleEl.appendChild(line);
         setTimeout(typeLine, 1000);
+      } else {
+        const message = document.getElementById('birthday-message');
+        message.style.display = 'block';
+        setTimeout(() => message.style.opacity = '1', 100);
       }
     }
     typeLine();
@@ -280,12 +284,7 @@
         p.x = Math.random() * width;
       });
     });
-    document.addEventListener('DOMContentLoaded', () => {
-    const message = document.getElementById('birthday-message');
-    setTimeout(() => {
-      message.style.display = 'block';
-    }, 20000); // Adjust timing to match your console duration
-  });
+    
     function showFinalMessage() {
       document.getElementById('final-message').style.display = 'block';
     }
