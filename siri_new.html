@@ -403,10 +403,28 @@
         const music = document.getElementById('bg-music');
         const muteBtn = document.getElementById('mute-btn');
 
+        // Handle mute state from localStorage
+        music.muted = localStorage.getItem('muted') === 'true';
+        muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+
+        // Mute toggle
         muteBtn.addEventListener('click', () => {
             music.muted = !music.muted;
+            localStorage.setItem('muted', music.muted);
             muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
         });
+
+        // Start music only if flag is set (user clicked from intermediate2)
+        if (localStorage.getItem('playMusic') === 'true') {
+            music.play().catch(() => { });
+            localStorage.removeItem('playMusic'); // Clear flag after playing once
+        }
+
+        // Fallback: try play on user click too
+        document.addEventListener('click', () => {
+            music.play().catch(() => { });
+        }, { once: true });
+
 
     </script>
 </body>
