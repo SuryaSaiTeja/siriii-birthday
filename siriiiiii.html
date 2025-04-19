@@ -29,6 +29,7 @@
       margin-bottom: 1rem;
       position: relative;
       cursor: pointer;
+      z-index: 2;
     }
     .message {
       max-width: 90%;
@@ -36,13 +37,15 @@
       line-height: 1.5;
       opacity: 0;
       animation: fadeIn 2s ease-in-out forwards 1s;
-      margin-bottom: 2rem;
+      margin-bottom: 3.5rem;
+      z-index: 2;
     }
     .footer {
       margin-top: auto;
       font-size: 0.9rem;
       color: #7c6f63;
       opacity: 0.8;
+      z-index: 2;
     }
     .confetti {
       position: fixed;
@@ -78,6 +81,7 @@
       animation: float 6s ease-in-out infinite;
     }
     .console {
+      position: relative;
       width: 95%;
       max-width: 90%;
       background: #2e2e2e;
@@ -90,8 +94,8 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
       max-height: 150px;
       overflow-y: auto;
-      z-index: 10;
-      margin-bottom: 2rem;
+      z-index: 2;
+      margin-top: 2rem;
     }
 
     @keyframes float {
