@@ -246,6 +246,26 @@
             width: 100%;
             border-radius: 12px;
         }
+
+        .popper {
+            position: fixed;
+            font-size: 2rem;
+            z-index: 10000;
+            animation: popperAnim 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes popperAnim {
+            0% {
+                transform: scale(0.5) translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5) translateY(-100px);
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 
@@ -381,6 +401,7 @@
         function showFinalMessage() {
             document.getElementById('final-message').style.display = 'block';
             document.getElementById('reveal').style.display = 'none';
+            launchPoppers(); // 🎉 launch when clicked
         }
 
         function startAgain() {
@@ -399,6 +420,11 @@
         document.addEventListener('click', () => {
             music.play().catch(() => { });
         }, { once: true });
+
+        window.addEventListener("load", () => {
+            launchPoppers();
+        });
+
 
         const music = document.getElementById('bg-music');
         const muteBtn = document.getElementById('mute-btn');
@@ -424,6 +450,23 @@
         document.addEventListener('click', () => {
             music.play().catch(() => { });
         }, { once: true });
+
+        function launchPoppers(count = 100) {
+            const emojis = ["🎉", "🎊", "🥳", "✨"];
+            for (let i = 0; i < count; i++) {
+                const popper = document.createElement("div");
+                popper.className = "popper";
+                popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                popper.style.left = `${Math.random() * window.innerWidth}px`;
+                popper.style.top = `${Math.random() * window.innerHeight}px`;
+                document.body.appendChild(popper);
+
+                setTimeout(() => {
+                    popper.remove();
+                }, 1500);
+            }
+        }
+
 
 
     </script>
