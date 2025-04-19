@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Clue 3 - Birthday Hunt</title>
+<style>
+    body {
+      background: #ece4db;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 1rem;
+      color: #3e2c23;
+    }
+    h2 {
+      margin-bottom: 1rem;
+    }
+    .riddle-box {
+      background: #fff9f2;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 500px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-top: 1rem;
+      border-radius: 6px;
+      border: 1px solid #a07c5e;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-left: 0.5rem;
+      background: #a07c5e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #8e6b4d;
+    }
+    .footer {
+      position: absolute;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: #7c6f63;
+      opacity: 0.8;
+    }
+  
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-5px); }
+      100% { transform: translateX(0); }
+    }
+    input.shake {
+      animation: shake 0.3s;
+    }
+    
+        input, button {
+          font-size: 1.1rem;
+          padding: 0.75rem;
+        }
+        .riddle-box {
+          width: 90%;
+        }
+        body {
+          padding: 1rem;
+          overflow-y: auto;
+        }
+        </style>
+</head>
+<body>
+<div class="riddle-box">
+<h2>🕵️ Clue 3</h2>
+<p>
+      I have keys but open no locks. I have space but no room. You can enter, but you can’t go outside.<br/>
+      What am I?
+    </p>
+<input id="answer" placeholder="Your answer here..." type="text"/>
+<button onclick="checkAnswer()">Submit</button>
+<p id="response"></p>
+</div>
+<div class="footer">Hint: I'm essential for typing 💻</div>
+<script>
+    function checkAnswer() {
+      const input = document.getElementById('answer').value.toLowerCase().trim();
+      const response = document.getElementById('response');
+      if (input === 'keyboard') {
+        response.textContent = 'Correct! Moving to the next clue...';
+        setTimeout(() => {
+          window.location.href = 'intermediate.html';
+        }, 1500);
+      } else {
+        response.textContent = 'Hmm, not quite. Try again!';
+      }
+    }
+  
+      const wrongAnswers = [
+        "Not even close, Sherlock! 🕵️",
+        "Are you sleep-solving this? 😴",
+        "That's... a choice. Try again 😂",
+        "Nope! But A+ for enthusiasm. 🧠",
+        "Hmm, try feeding your brain a cookie first 🍪"
+      ];
+    
+    function checkAnswer() {
+      const input = document.getElementById('answer').value.toLowerCase().trim();
+      const response = document.getElementById('response');
+      if (input === 'keyboard') {
+        response.textContent = '🎉 Nailed it! Moving to your next clue...';
+        setTimeout(() => {
+          window.location.href = 'intermediate.html';
+        }, 1500);
+      } else {
+        response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        document.getElementById('answer').classList.add('shake');
+        setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
+      }
+    }
+    
+</script>
+</body>
+</html>

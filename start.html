@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Birthday Hunt - Siriiiii</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet"/>
+<style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: #f4f1ee;
+      color: #4b3b2a;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 1rem;
+      text-align: center;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .start-btn {
+      padding: 0.8rem 1.5rem;
+      background-color: #a07c5e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .start-btn:hover {
+      background-color: #8e6b4d;
+    }
+    .footer {
+      position: absolute;
+      bottom: 1rem;
+      font-size: 0.9rem;
+      color: #7c6f63;
+      opacity: 0.8;
+    }
+  
+        input, button {
+          font-size: 1.1rem;
+          padding: 0.75rem;
+        }
+        .riddle-box {
+          width: 90%;
+        }
+        body {
+          padding: 1rem;
+          overflow-y: auto;
+        }
+        </style>
+</head>
+<body>
+<h1>Welcome, Siriiiii 🗺️</h1>
+<p>Your mission—should you choose to accept it—starts now.</p>
+<br/>
+<button class="start-btn" onclick="startHunt()">Start the Treasure Hunt</button>
+<div class="footer">Crafted with love &lt;/&gt; by someone who truly cares 💛</div>
+<script>
+    function startHunt() {
+      window.location.href = "clue1.html";
+    }
+  </script>
+</body>
+</html>

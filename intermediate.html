@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Unlocking the Treasure...</title>
+<style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      background: #f4e1d2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+      color: #3e2c23;
+      padding: 2rem;
+      overflow: hidden;
+    }
+    .loader {
+      font-size: 1.5rem;
+      color: #a07c5e;
+      margin-bottom: 1rem;
+    }
+    .message {
+      font-size: 2rem;
+      font-weight: bold;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .next-btn {
+      padding: 1rem 2rem;
+      background-color: #a07c5e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .next-btn:hover {
+      background-color: #8e6b4d;
+    }
+  
+        input, button {
+          font-size: 1.1rem;
+          padding: 0.75rem;
+        }
+        .riddle-box {
+          width: 90%;
+        }
+        body {
+          padding: 1rem;
+          overflow-y: auto;
+        }
+        </style>
+</head>
+<body>
+<div class="loader">🔐 Unlocking the treasure with birthday-level security...</div>
+<audio id="revealSound" preload="auto" src="https://www.soundjay.com/human/sounds/applause-8.mp3"></audio>
+<div class="message" id="glitch-text">I̸̡̺̤̞̩̙̜̹̱̬͇͍̜̓̐̔́̇͘͜t̶̟̝̜̟̤̗̤͓͈̗̼̼̜̤̺̰̩̄̀̎̄̏́̎͂͘'̷͇͕̳̦̱̟̥̰̥͉́̅̀͂͊̄́͐͂͆̋͘͝͝s̸̢͉̝͇̗̹̠̮̺͎̟̬͆̑̍̒̌̑͆̐̿̿̓͒̌͌͘ ̵̢̛̖͉̤̺͇͚̱͓̪̖̱͓̤̰̯͎̔̑̈́̓̏͌͐̏̈́̐̿̀̈́̾̀̚ͅŸ̴̡̢̱̯̙͕̠͎̮̖̖͉͚̬̬̗̫̲̪́̅̇̐̌̅̿͗̑̋̇̋̋̄͂̕͝ớ̷̡̢̟̘͚̤̮͎̰̤̲͎͚̥̮̝̤̞̼̽͛̅̄̐̽́̍̔̒̏͐̚͜ų̸̢̡̡̻̝̘̙̖̘̱̳̹̖̥̝̼̦̼̬̀̀̇͌͗̑͋̐̍̍̿̈́͊͗͋͂̕͘͠</div>
+<button class="next-btn" onclick="goToFinal()">Click here</button>
+<script>
+    setTimeout(function() {
+      
+    document.querySelector('.message').style.opacity = 1;
+    setTimeout(() => {
+      document.getElementById('glitch-text').textContent = "🎯 It's YOU!";
+      document.getElementById('revealSound').play();
+    }, 1000);
+    
+      document.querySelector('.next-btn').style.opacity = 1;
+    }, 3000);
+
+    function goToFinal() {
+      window.location.href = 'siriiiiii.html';
+    }
+  </script>
+</body>
+</html>
