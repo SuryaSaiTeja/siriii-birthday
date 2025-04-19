@@ -127,18 +127,6 @@
   </div>
   <div class="footer">Hint: I'm essential for typing 💻</div>
   <script>
-    function checkAnswer() {
-      const input = document.getElementById('answer').value.toLowerCase().trim();
-      const response = document.getElementById('response');
-      if (input === 'keyboard') {
-        response.textContent = 'Correct! Moving to the next clue...';
-        setTimeout(() => {
-          window.location.href = 'intermediate.html';
-        }, 1500);
-      } else {
-        response.textContent = 'Hmm, not quite. Try again!';
-      }
-    }
 
     const wrongAnswers = [
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
@@ -154,7 +142,7 @@
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'keyboard') {
-        response.textContent = '🎉 Nailed it! Moving to your next clue...';
+        response.textContent = '🎉 Fantastic ! Superb ! Mind-blowing ! Unbelievable !!!';
         const music = document.getElementById('bg-music');
         if (music) {
           music.pause();
