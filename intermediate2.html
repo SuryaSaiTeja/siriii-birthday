@@ -99,7 +99,7 @@
     <p class="message" style="animation-delay: 0.8s">You followed the clues, solved every riddle...</p>
     <p class="message" style="animation-delay: 1.6s">And now, you've reached the end.</p>
     <div class="reveal">The treasure is... <br><span style="font-size: 2rem; color: #d49c6c;">You 💛</span></div>
-    <button class="btn" onclick="goToFinal()">Next</button>
+    <button class="btn" onclick="goToFinal()">Tap here</button>
     <div class="footer" style="margin-top: 3rem; font-size: 0.9rem; color: #856c5a; opacity: 0.8;">
       Crafted with love &lt;/&gt; by someone who truly treasures you 🌸
     </div>
@@ -107,9 +107,14 @@
 
   <script>
     setTimeout(() => {
-      document.getElementById('loader').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-    }, 3000);
+  requestAnimationFrame(() => {
+    const loader = document.getElementById('loader');
+    const content = document.getElementById('content');
+    loader.style.display = 'none';
+    content.style.display = 'block';
+  });
+}, 3000);
+
 
     // Sparkles
     for (let i = 0; i < 25; i++) {
