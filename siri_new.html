@@ -15,11 +15,12 @@
       padding: 0;
     }
     html, body {
-      font-family: 'Quicksand', Bold;
-      background: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.7)), url('siripic1.jpeg') no-repeat center center;
+      background-repeat: no-repeat;
       background-size: cover;
       background-attachment: fixed;
-      background-position: center center;
+      background-position: center top;
+      background-image: linear-gradient(to top, rgba(255, 255, 255, 0.4), rgba(255,255,255,0.7)), url('siripic1.jpeg');
+      font-family: 'Quicksand', Bold;
       color: #3e2c23;
       min-height: 100vh;
       width: 100%;
@@ -29,7 +30,6 @@
       justify-content: flex-start;
       padding: 2rem 1rem;
       text-align: center;
-    }
     html::before {
       content: "";
       position: fixed;
@@ -157,10 +157,24 @@
         opacity: 1;
       }
     }
-    @media (min-width: 768px) {
-      h1 {
-        font-size: 2.5rem;
-      }
+    @media (max-width: 768px) {
+  html, body {
+    background-position: top center;
+    background-size: contain;
+  }
+}
+
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  .message {
+    font-size: 1.2rem;
+  }
+  .console {
+    font-size: 0.9rem;
+  }
+}
       .message {
         font-size: 1.2rem;
       }
@@ -277,6 +291,7 @@
         setTimeout(() => message.style.opacity = '1', 100);
       }
     }
+    
     typeLine();
     document.addEventListener('keydown', () => {
       confetti.forEach(p => {
