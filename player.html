@@ -10,5 +10,16 @@
     <source src="comedy-detective.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
+
+  <button onclick="toggleMute()" style="position:fixed; top:1rem; right:1rem;">🔊 Mute</button>
+
+<script>
+function toggleMute() {
+  const audio = document.getElementById('bg-music');
+  audio.muted = !audio.muted;
+  event.target.textContent = audio.muted ? '🔇 Unmute' : '🔊 Mute';
+}
+</script>
+
 </body>
 </html>
