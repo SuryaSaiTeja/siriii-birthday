@@ -178,7 +178,7 @@
   <canvas class="confetti" id="confetti-canvas"></canvas>
   <h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
   <div class="console" id="console"></div>
-  <p class="message">
+  <p class="message" id="birthday-message">
     Today is the day the world got a little brighter, funnier, and way more lovable — because it's your birthday! 🎈
     On this special day, I just want to take a moment to celebrate the amazing person you are.
     <br/>
@@ -187,6 +187,8 @@
     You care like no one else, laugh like it’s therapy, and love like it’s magic. I’m so lucky to have you as my person — my favorite vibe, my go-to smile, my constant in all the chaos. 🌟
     <br/>
     Wishing you a day full of laughter, love, cake, and little surprises that remind you how incredible you are — not just today, but every single day. 🥳
+    <br/>
+    Happy Birthday, Siriiii. The world — and my world — is so much better with you in it. 🎂💖
     May your day be filled with warmth, smiles, and everything that makes you feel loved. You deserve it all.
   </p>
   <div class="easter-egg" id="easter-egg">🥳 Surprise! You just found out that: You're magical. ✨</div>
@@ -278,7 +280,12 @@
         p.x = Math.random() * width;
       });
     });
-
+    document.addEventListener('DOMContentLoaded', () => {
+    const message = document.getElementById('birthday-message');
+    setTimeout(() => {
+      message.style.display = 'block';
+    }, 20000); // Adjust timing to match your console duration
+  });
     function showFinalMessage() {
       document.getElementById('final-message').style.display = 'block';
     }
