@@ -54,6 +54,66 @@
       background: #8e6b4d;
     }
 
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffefdc;
+      color: #3e2c23;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      z-index: 10000;
+      animation: fadeInOut 3s ease-in-out;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+    }
+
+    .bounce-reveal {
+      animation: bounceFadeIn 0.8s ease forwards;
+    }
+
+    @keyframes bounceFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
     .footer {
       position: absolute;
       bottom: 1rem;
@@ -132,7 +192,7 @@
       "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
       "Podukuni aadutunnava? 😴 Leguuu",
       "Asssalu Kadhu, musukuni malli try chey 😂",
-      "Kaane kadhu. Konchem burra petti aalochinchu 🧠",
+      "Kaane kadhu. Konchem burra vaadu 🧠",
       "kadupu ki annam thintunnava gaddi thintunnava ? Entaa answers ? 🔪",
       "Nuvvu cheppina answer vinagane server crash ayyindi 🖥️",
       "Adhi kooda guess cheyyalekapothe ela ?? 🤔"
@@ -142,7 +202,15 @@
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'keyboard') {
-        response.textContent = '🎉 Fantastic ! Superb ! Mind-blowing ! Unbelievable !!!';
+        const msg = 'Fantastic ! Superb ! Mind-blowing ! Unbelievable !!! 🎉🎊';
+        //response.textContent = '🎉 Fantastic ! Superb ! Mind-blowing ! Unbelievable !!!';
+        showMemeToast(msg);
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth; // this line triggers reflow
+          response.classList.add('bounce-reveal');
+        }, 2000);
         const music = document.getElementById('bg-music');
         if (music) {
           music.pause();
@@ -153,17 +221,39 @@
             window.audioWindow.close();
           }
           window.location.href = 'intermediate2.html';
-        }, 1500);
+        }, 3000);
 
       } else {
-        response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        //response.textContent = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        showMemeToast(msg);
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth; // this line triggers reflow
+          response.classList.add('bounce-reveal');
+        }, 2000);
         document.getElementById('answer').classList.add('shake');
         setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
       }
     }
 
-    if (window.audioWindow && !window.audioWindow.closed) {
+    /*if (window.audioWindow && !window.audioWindow.closed) {
       window.audioWindow.close();
+    }*/
+
+    function showMemeToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      //toast.textContent = wrongAnswers[Math.floor(Math.random() * memeDialogues.length)];
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.remove();
+        if (typeof callback === 'function') {
+          callback();
+        }
+      }, 3000);
     }
 
     const music = document.getElementById('bg-music');
