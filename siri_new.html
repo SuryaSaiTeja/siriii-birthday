@@ -182,6 +182,19 @@
         font-size: 0.9rem;
       }
     }
+    .photo-frame {
+      border: 6px solid #fff;
+      padding: 8px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      background-color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 1.5rem;
+      max-width: 300px;
+    }
+    .photo-frame img {
+      width: 100%;
+      border-radius: 12px;
+    }
   </style>
 </head>
 <body>
@@ -191,6 +204,9 @@
   </audio>
   <canvas class="confetti" id="confetti-canvas"></canvas>
   <h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
+  <div class="photo-frame">
+    <img src="siripic2.jpeg" alt="Birthday Girl" />
+  </div>
   <div class="console" id="console"></div>
   <p class="message" id="birthday-message" style="display: none; opacity: 0; transition: opacity 1.5s ease;">
     Today is the day the world got a little brighter, funnier, and way more lovable — because it's your birthday! 🎈
@@ -267,7 +283,7 @@
     const lines = [
   '> Initializing Birthday Protocol... ✅',
   '> Connecting to the Heartbeat Network 💓',
-  '> echo "Happy Birthday Siriiiii!" 🎂',
+  '> echo "Happiesttt Birthday Siriiiii!" 🎂',
   '> Compiling smiles... 😊',
   '> Deploying hugs && kisses 💌',
   '> Status: You are the best gift ever 🎁',
