@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Clue 2 - Birthday Hunt</title>
-<style>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Clue 2 - Birthday Hunt</title>
+  <style>
     body {
       background: #ece4db;
       font-family: 'Courier New', Courier, monospace;
@@ -18,16 +19,19 @@
       padding: 1rem;
       color: #3e2c23;
     }
+
     h2 {
       margin-bottom: 1rem;
     }
+
     .riddle-box {
       background: #fff9f2;
       padding: 1.5rem;
       border-radius: 12px;
       max-width: 500px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     input {
       padding: 0.5rem;
       font-size: 1rem;
@@ -35,6 +39,7 @@
       border-radius: 6px;
       border: 1px solid #a07c5e;
     }
+
     button {
       padding: 0.5rem 1rem;
       margin-left: 0.5rem;
@@ -44,9 +49,11 @@
       border-radius: 6px;
       cursor: pointer;
     }
+
     button:hover {
       background: #8e6b4d;
     }
+
     .footer {
       position: absolute;
       bottom: 1rem;
@@ -54,44 +61,70 @@
       color: #7c6f63;
       opacity: 0.8;
     }
-  
+
     @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
-      100% { transform: translateX(0); }
+      0% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
+
+      100% {
+        transform: translateX(0);
+      }
     }
+
     input.shake {
       animation: shake 0.3s;
     }
-    
-        input, button {
-          font-size: 1.1rem;
-          padding: 0.75rem;
-        }
-        .riddle-box {
-          width: 90%;
-        }
-        body {
-          padding: 1rem;
-          overflow-y: auto;
-        }
-        </style>
+
+    input,
+    button {
+      font-size: 1.1rem;
+      padding: 0.75rem;
+    }
+
+    .riddle-box {
+      width: 90%;
+    }
+
+    body {
+      padding: 1rem;
+      overflow-y: auto;
+    }
+  </style>
 </head>
+
 <body>
-<div class="riddle-box">
-<h2>🕵️ Clue 2</h2>
-<p>
-      I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me.<br/>
+  <audio id="bg-music" autoplay loop>
+    <source src="comedy-detective.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  <button id="mute-btn" style="position: fixed; top: 1rem; left: 1rem; z-index: 999; background: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer;">🔊 Mute</button>
+  
+  <div class="riddle-box">
+    <h2>🕵️ Clue 2</h2>
+    <p>
+      I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me.<br />
       What am I?
     </p>
-<input id="answer" placeholder="Your answer here..." type="text"/>
-<button onclick="checkAnswer()">Submit</button>
-<p id="response"></p>
-</div>
-<div class="footer">Hint: I'm often found in cozy firesides 🔥</div>
-<script>
+    <input id="answer" placeholder="Your answer here..." type="text" />
+    <button onclick="checkAnswer()">Submit</button>
+    <p id="response"></p>
+  </div>
+  <div class="footer">Hint: I'm often found in cozy firesides 🔥</div>
+  <script>
     function checkAnswer() {
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
@@ -104,15 +137,15 @@
         response.textContent = 'Hmm, not quite. Try again!';
       }
     }
-  
-      const wrongAnswers = [
-        "Not even close, Sherlock! 🕵️",
-        "Are you sleep-solving this? 😴",
-        "That's... a choice. Try again 😂",
-        "Nope! But A+ for enthusiasm. 🧠",
-        "Hmm, try feeding your brain a cookie first 🍪"
-      ];
-    
+
+    const wrongAnswers = [
+      "Not even close, Sherlock! 🕵️",
+      "Are you sleep-solving this? 😴",
+      "That's... a choice. Try again 😂",
+      "Nope! But A+ for enthusiasm. 🧠",
+      "Hmm, try feeding your brain a cookie first 🍪"
+    ];
+
     function checkAnswer() {
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
@@ -127,7 +160,22 @@
         setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
       }
     }
-    
-</script>
+
+    const music = document.getElementById('bg-music');
+    const muteBtn = document.getElementById('mute-btn');
+
+    muteBtn.addEventListener('click', () => {
+      music.muted = !music.muted;
+      muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+    });
+
+    // Optional: Prevent autoplay issues
+    document.addEventListener('click', () => {
+      music.play().catch(() => { });
+    }, { once: true });
+
+
+  </script>
 </body>
+
 </html>
