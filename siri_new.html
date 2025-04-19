@@ -396,6 +396,10 @@
             document.body.appendChild(sparkle);
         }
 
+        document.addEventListener('click', () => {
+            music.play().catch(() => { });
+        }, { once: true });
+
         const music = document.getElementById('bg-music');
         const muteBtn = document.getElementById('mute-btn');
 
