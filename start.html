@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Birthday Hunt - Siriiiii</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet"/>
-<style>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Birthday Hunt - Siriiiii</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet" />
+  <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Roboto Mono', monospace;
       background: #f4f1ee;
@@ -25,10 +27,12 @@
       text-align: center;
       overflow: hidden;
     }
+
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
     }
+
     .start-btn {
       padding: 0.8rem 1.5rem;
       background-color: #a07c5e;
@@ -39,9 +43,11 @@
       cursor: pointer;
       transition: background 0.3s;
     }
+
     .start-btn:hover {
       background-color: #8e6b4d;
     }
+
     .footer {
       position: absolute;
       bottom: 1rem;
@@ -49,30 +55,38 @@
       color: #7c6f63;
       opacity: 0.8;
     }
-  
-        input, button {
-          font-size: 1.1rem;
-          padding: 0.75rem;
-        }
-        .riddle-box {
-          width: 90%;
-        }
-        body {
-          padding: 1rem;
-          overflow-y: auto;
-        }
-        </style>
+
+    input,
+    button {
+      font-size: 1.1rem;
+      padding: 0.75rem;
+    }
+
+    .riddle-box {
+      width: 90%;
+    }
+
+    body {
+      padding: 1rem;
+      overflow-y: auto;
+    }
+  </style>
 </head>
+
 <body>
-<h1>Welcome, Siriiiii 🗺️</h1>
-<p>Your mission—should you choose to accept it—starts now.</p>
-<br/>
-<button class="start-btn" onclick="startHunt()">Start the Treasure Hunt</button>
-<div class="footer">Crafted with love &lt;/&gt; by someone who truly cares 💛</div>
-<script>
+  <h1>Welcome, Siriiiii 🗺️</h1>
+  <p>Your mission—should you choose to accept it—starts now.</p>
+  <br />
+  <button class="start-btn" onclick="startHunt()">Start the Treasure Hunt</button>
+  <div class="footer">Crafted with love &lt;/&gt; by someone who truly cares 💛</div>
+  <script>
     function startHunt() {
+      if (!window.audioWindow || window.audioWindow.closed) {
+        window.audioWindow = window.open('player.html', 'audioWindow', 'width=1,height=1');
+      }
       window.location.href = "clue1.html";
     }
   </script>
 </body>
+
 </html>
