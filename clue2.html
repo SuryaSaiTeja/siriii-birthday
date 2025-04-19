@@ -164,8 +164,10 @@
     const music = document.getElementById('bg-music');
     const muteBtn = document.getElementById('mute-btn');
 
+    music.muted = localStorage.getItem('muted') === 'true';
     muteBtn.addEventListener('click', () => {
       music.muted = !music.muted;
+      localStorage.setItem('muted', music.muted);
       muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
     });
 
