@@ -230,6 +230,42 @@
             .console {
                 font-size: 0.9rem;
             }
+
+            .scroll-indicator {
+                position: fixed;
+                bottom: 1rem;
+                right: 1rem;
+                font-size: 1.8rem;
+                z-index: 9999;
+                pointer-events: none;
+                opacity: 0.7;
+                animation: bounce 1.6s infinite;
+                transition: opacity 0.3s ease;
+            }
+
+            /* Make sure it doesn't overlap mute button or other fixed elements */
+            @media (max-width: 768px) {
+                .scroll-indicator {
+                    bottom: 1rem;
+                    right: 1rem;
+                    font-size: 1.5rem;
+                }
+            }
+
+            @keyframes bounce {
+
+                0%,
+                100% {
+                    transform: translateY(0);
+                }
+
+                50% {
+                    transform: translateY(-6px);
+                }
+            }
+
+
+
         }
 
         .photo-frame {
@@ -253,6 +289,7 @@
             z-index: 10000;
             animation: popperAnim 1.5s ease-out forwards;
             pointer-events: none;
+            bottom: 0;
         }
 
         @keyframes popperAnim {
@@ -459,6 +496,7 @@
                 popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
                 popper.style.left = `${Math.random() * window.innerWidth}px`;
                 popper.style.top = `${Math.random() * window.innerHeight}px`;
+                popper.style.bottom = "0";
                 document.body.appendChild(popper);
 
                 setTimeout(() => {
@@ -467,9 +505,23 @@
             }
         }
 
+        window.addEventListener('scroll', () => {
+            const indicator = document.getElementById('scroll-indicator');
+            if (window.scrollY > 80) {
+                indicator.style.opacity = '0';
+            } else {
+                indicator.style.opacity = '0.7';
+            }
+        });
+
 
 
     </script>
+    <div class="scroll-indicator" id="scroll-indicator">
+        <span class="arrow">⬇️</span>
+    </div>
+
+
 </body>
 
 </html>
