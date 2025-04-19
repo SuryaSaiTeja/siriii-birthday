@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Happy Birthday Siriiiii</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&amp;display=swap" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday Siriiiii</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
     * {
       box-sizing: border-box;
       margin: 0;
@@ -18,75 +17,73 @@
       color: #4b3b2a;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      height: 100vh;
-      padding: 1rem;
+      min-height: 100vh;
+      padding: 2rem 1rem;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 2rem;
       margin-bottom: 1rem;
       position: relative;
       cursor: pointer;
     }
     .message {
-      max-width: 600px;
-      font-size: 1.2rem;
-      line-height: 1.6;
+      max-width: 90%;
+      font-size: 1rem;
+      line-height: 1.5;
       opacity: 0;
       animation: fadeIn 2s ease-in-out forwards 1s;
+      margin-bottom: 2rem;
     }
     .footer {
-      position: absolute;
-      bottom: 1rem;
+      margin-top: auto;
       font-size: 0.9rem;
       color: #7c6f63;
       opacity: 0.8;
     }
     .confetti {
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 999;
+      z-index: 1;
     }
     .easter-egg {
       display: none;
-      position: absolute;
+      position: fixed;
       top: 1rem;
       right: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: #856c5a;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.95);
       padding: 0.8rem;
       border-radius: 8px;
       animation: fadeIn 1s ease-in-out forwards;
-      max-width: 250px;
+      max-width: 220px;
       text-align: left;
       z-index: 1000;
       box-shadow: 0 0 10px rgba(0,0,0,0.2);
     }
     .balloon {
       position: absolute;
-      width: 40px;
-      height: 60px;
+      width: 30px;
+      height: 45px;
       background: #e2b89c;
       border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
       animation: float 6s ease-in-out infinite;
     }
     .console {
-      position: absolute;
-      bottom: 3rem;
-      width: 90%;
-      max-width: 600px;
+      width: 95%;
+      max-width: 90%;
       background: #2e2e2e;
       color: #00ff90;
       padding: 1rem;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       border-radius: 8px;
       text-align: left;
       font-family: 'Courier New', Courier, monospace;
@@ -94,7 +91,9 @@
       max-height: 150px;
       overflow-y: auto;
       z-index: 10;
+      margin-bottom: 2rem;
     }
+
     @keyframes float {
       0% { transform: translateY(0); }
       50% { transform: translateY(-40px); }
@@ -105,34 +104,39 @@
         opacity: 1;
       }
     }
-  
-        input, button {
-          font-size: 1.1rem;
-          padding: 0.75rem;
-        }
-        .riddle-box {
-          width: 90%;
-        }
-        body {
-          padding: 1rem;
-          overflow-y: auto;
-        }
-        </style>
+
+    @media (min-width: 600px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+      .message {
+        font-size: 1.2rem;
+      }
+      .console {
+        font-size: 0.9rem;
+        max-width: 600px;
+      }
+    }
+  </style>
 </head>
 <body>
-<canvas class="confetti" id="confetti-canvas"></canvas>
-<h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
-<p class="message">
+  <canvas class="confetti" id="confetti-canvas"></canvas>
+
+  <h1 onclick="revealSecret()">Happy Birthday, Siriiiii 🎉</h1>
+  <p class="message">
     On this special day, I just want to take a moment to celebrate the amazing person you are.
     <br/><br/>
     (Insert heartfelt message here)
     <br/><br/>
     May your day be filled with warmth, smiles, and everything that makes you feel loved. You deserve it all.
   </p>
-<div class="easter-egg" id="easter-egg">🥳 Surprise! You just found a secret message: You're magical. ✨<br/>Hint: Press any key 👀</div>
-<div class="console" id="console"></div>
-<div class="footer">Crafted with love, laughter, and just a tiny bit of chaos 💛🧁</div>
-<script>
+
+  <div class="easter-egg" id="easter-egg">🥳 Surprise! You just found a secret message: You're magical. ✨<br/>Hint: Press any key 👀</div>
+
+  <div class="console" id="console"></div>
+  <div class="footer">Crafted with love &lt;/&gt; by someone who truly cares 💛</div>
+
+  <script>
     const canvas = document.getElementById('confetti-canvas');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -193,19 +197,15 @@
       document.body.appendChild(balloon);
     }
 
-    // Techie Console Love Lines
     const consoleEl = document.getElementById('console');
     const lines = [
-  '> Initializing Birthday Protocol... ✅',
-  '> Connecting to the Heartbeat Network 💓',
-  '> echo "Happy Birthday Siriiiii!" 🎂',
-  '> Compiling smiles... 😊',
-  '> Deploying hugs && kisses 💌',
-  '> Status: You are the best gift ever 🎁',
-  '> Analyzing awesomeness level... 💯',
-  '> Fun detected: OFF THE CHARTS 📈',
-  '> 🪩 Party mode activated. Initiating dance.exe 💃🕺'
-];
+      '> Initializing Birthday Protocol... ✅',
+      '> Connecting to the Heartbeat Network 💓',
+      '> echo "Happy Birthday Siriiiii!" 🎂',
+      '> Compiling smiles... 😊',
+      '> Deploying hugs && kisses 💌',
+      '> Status: You are the best gift ever 🎁',
+    ];
     let i = 0;
     function typeLine() {
       if (i < lines.length) {
@@ -217,7 +217,6 @@
     }
     typeLine();
 
-    // Fun key press to burst confetti
     document.addEventListener('keydown', () => {
       confetti.forEach(p => {
         p.y = Math.random() * height;
