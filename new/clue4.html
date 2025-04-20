@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clue 4 - Balloon Pop</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #fff5e6;
+      text-align: center;
+      padding: 2rem;
+      color: #3e2c23;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .balloon {
+      display: inline-block;
+      width: 60px;
+      height: 80px;
+      background: #ffb3ba;
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      position: relative;
+      margin: 1rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .balloon:after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: #555;
+    }
+
+    .balloon:hover {
+      transform: scale(1.1);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffe0b3;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      font-weight: bold;
+      z-index: 999;
+    }
+
+    .popper {
+      font-size: 2rem;
+      animation: popperAnim 1.5s ease-out forwards;
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+    }
+
+    @keyframes popperAnim {
+      0% { transform: scale(0.5) translateY(0); opacity: 1; }
+      100% { transform: scale(1.5) translateY(-100px); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h2>✨ Clue 4: Pop the Right Balloon! ✨</h2>
+  <p>One of these balloons has your next clue... Guess which one! 🎈</p>
+
+  <div id="balloon-container"></div>
+
+  <script>
+    const container = document.getElementById('balloon-container');
+    const correctIndex = Math.floor(Math.random() * 6);
+    const memes = [
+      "Em guessing ra idhi... kabatti kaadhu! ☹️",
+      "Adi kooda pop cheyyadam enti... try again!",
+      "Povadam le... malli pop chey! 😭",
+      "Idhi kaadu... kani nuvvu kaadu anadam kastam!",
+      "Ardham chesuko, wrong pick chesav 😜"
+    ];
+
+    for (let i = 0; i < 6; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.onclick = () => {
+        if (i === correctIndex) {
+          showToast("Bingo! Next clue loading... 🎉");
+          launchPoppers();
+          setTimeout(() => {
+            window.location.href = 'clue5.html';
+          }, 3000);
+        } else {
+          const msg = memes[Math.floor(Math.random() * memes.length)];
+          showToast(msg);
+        }
+      };
+      container.appendChild(balloon);
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 2000);
+    }
+
+    function launchPoppers(count = 50) {
+      const emojis = ["❤️", "✨", "🎉"];
+      for (let i = 0; i < count; i++) {
+        const popper = document.createElement("div");
+        popper.className = "popper";
+        popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        popper.style.left = `${Math.random() * window.innerWidth}px`;
+        popper.style.top = `${Math.random() * window.innerHeight}px`;
+        document.body.appendChild(popper);
+        setTimeout(() => popper.remove(), 1500);
+      }
+    }
+  </script>
+</body>
+</html>
