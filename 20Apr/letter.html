@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Letter for You 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: url('https://www.transparenttextures.com/patterns/paper-fibers.png'), #fdf6e3;
+      font-family: 'Great Vibes', cursive;
+      padding: 3rem 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #5c4438;
+      overflow: hidden;
+    }
+    .letter {
+      max-width: 700px;
+      font-size: 1.8rem;
+      line-height: 2.6rem;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      white-space: pre-wrap;
+    }
+    .signature {
+      margin-top: 2rem;
+      font-size: 2rem;
+      text-align: right;
+      font-family: 'Great Vibes', cursive;
+    }
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      background: #5c4438;
+      animation: blink 1s step-start infinite;
+      margin-left: 5px;
+    }
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="letter" id="letter"></div>
+
+  <script>
+    const content = `Today is the day the world got a little brighter, funnier, and way more lovable — because it's your birthday! 🎈
+
+On this special day, I just want to take a moment to celebrate the amazing person you are.
+
+You are that rare kind of person who makes life feel lighter, moments feel warmer, and days feel worth it. Your presence is joy, and your friendship is one of the greatest gifts I hold dear. 💛
+
+You care like no one else, laugh like it’s therapy, and love like it’s magic. I’m so lucky to have you as my person — my favorite vibe, my go-to smile, my constant in all the chaos. 🌟
+
+Wishing you a day full of laughter, love, cake, and little surprises that remind you how incredible you are — not just today, but every single day. 🥳
+
+Happy Birthday, Siriiii. The world — and my world — is so much better with you in it. 🎂💖
+
+May your day be filled with warmth, smiles, and everything that makes you feel loved. You deserve it all.
+
+With all my heart,
+Suriya`;
+
+    const letter = document.getElementById('letter');
+    let i = 0;
+
+    function type() {
+      if (i < content.length) {
+        letter.innerHTML = content.slice(0, i++) + '<span class="cursor"></span>';
+        setTimeout(type, 40);
+      } else {
+        letter.innerHTML = content + '<div class="signature">- Suriya</div>';
+      }
+    }
+
+    type();
+  </script>
+</body>
+</html>

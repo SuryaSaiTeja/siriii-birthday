@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reasons Why Everyone Loves You ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem 1rem;
+      font-family: 'Segoe UI', sans-serif;
+      background: #fff4f4;
+      color: #4b2e2e;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: #c14444;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    .card {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .card:hover {
+      transform: rotate(-2deg) scale(1.05);
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .card .reason {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.96);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      font-weight: bold;
+      line-height: 1.2;
+      opacity: 0;
+      transition: opacity 0.3s;
+      overflow-y: auto;
+      box-sizing: border-box;
+    }
+    .card.clicked .reason {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 Reasons Why Everyone Loves You 🌸</h1>
+  <div class="gallery">
+    <div class="card" onclick="this.classList.toggle('clicked')">
+      <img src="img001.jpg" alt="Love Reason 1">
+      <div class="reason">You make my every day feel like a festival 🪔</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('clicked')">
+      <img src="img002.jpg" alt="Love Reason 2">
+      <div class="reason">Your smile is my favourite view 😍</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('clicked')">
+      <img src="img003.jpg" alt="Love Reason 3">
+      <div class="reason">You're my calm, my chaos, my cozy cup of chai ☕</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('clicked')">
+      <img src="img004.jpg" alt="Love Reason 4">
+      <div class="reason">Even your mood swings have a fan club (me) 😅</div>
+    </div>
+    <div class="card" onclick="this.classList.toggle('clicked')">
+      <img src="img005.jpg" alt="Love Reason 5">
+      <div class="reason">You get me… even without words 🫶</div>
+    </div>
+  </div>
+  <br>
+  <button onclick="window.location.href='love-calculator.html'" style="margin-top: 2rem; padding: 0.75rem 1.5rem; font-size: 1rem; background: #c14444; color: white; border: none; border-radius: 8px; cursor: pointer;">
+    Next ➡️
+  </button>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>Clue 1 - Birthday Hunt</title>
+  <style>
+    body {
+      background: #ece4db;
+      font-family: 'Courier New', Courier, monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 1rem;
+      color: #3e2c23;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+
+    .riddle-box {
+      background: #fff9f2;
+      padding: 1.5rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    input,
+    button {
+      font-size: 1.1rem;
+      padding: 0.75rem;
+    }
+
+    input {
+      margin-top: 1rem;
+      border-radius: 6px;
+      border: 1px solid #a07c5e;
+    }
+
+    button {
+      margin-left: 0.5rem;
+      background: #a07c5e;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #8e6b4d;
+    }
+
+    .footer {
+      font-size: 0.9rem;
+      color: #7c6f63;
+      opacity: 0.8;
+      margin-top: 1rem;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ffefdc;
+      color: #3e2c23;
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      z-index: 10000;
+      animation: fadeInOut 3s ease-in-out;
+      max-width: 80%;
+      text-align: center;
+    }
+
+    .popper {
+      font-size: 2rem;
+      animation: popperAnim 1.5s ease-out forwards;
+      position: fixed;
+      pointer-events: none;
+      z-index: 10001;
+    }
+
+    @keyframes fadeInOut {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+    }
+
+    @keyframes popperAnim {
+      0% {
+        transform: scale(0.5) translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.5) translateY(-100px);
+        opacity: 0;
+      }
+    }
+
+    .bounce-reveal {
+      animation: bounceFadeIn 0.8s ease forwards;
+    }
+
+    @keyframes bounceFadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
+    }
+
+    input.shake {
+      animation: shake 0.3s;
+    }
+  </style>
+</head>
+
+<body>
+  <audio id="bg-music" autoplay loop>
+    <source src="comedy-detective.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <button id="mute-btn"
+    style="position: fixed; top: 1rem; left: 1rem; z-index: 999; background: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer;">🔊
+    Mute</button>
+
+  <div class="riddle-box">
+    <h2>🕵️ Clue 1</h2>
+    <p>I speak without a mouth, hear without ears,<br>I have no body, but I come alive with the wind.<br>What am I?</p>
+    <input id="answer" placeholder="Your answer here..." type="text" />
+    <button onclick="checkAnswer()">Submit</button>
+    <button onclick="showHint()"
+      style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
+      Hint</button>
+    <p id="response"></p>
+  </div>
+  <div class="fun-facts"
+    style="display:none; margin-top: 2rem; background: #fff7e8; padding: 1.5rem; border-radius: 12px; max-width: 500px; font-size: 0.95rem; color: #5e4a3b; box-shadow: 0 0 8px rgba(0,0,0,0.05);">
+    <h3 style="margin-bottom: 1rem; color: #a07c5e;">🎉 Fun Fact</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li>✨ The first riddle ever recorded was in ancient Babylon!</li>
+      <li>😆 The word 'echo' comes from a Greek myth about a nymph who faded away!</li>
+      <li>🎂 You are currently unlocking love using logic. Mad combo.</li>
+    </ul>
+  </div>
+
+  <script>
+    const wrongAnswers = [
+      "Podukuni aadutunnava? 😴 Leguuu",
+      "Asssalu Kadhu, musukuni malli try chey 😂",
+      "Kadupu ki annam thintunnava gaddi thintunnava? Entaa answers? 🔪",
+      "Na paruvu tiyyaku bro ☹️",
+      "Ye vooru amma manadhi ???",
+      "Chaala unfortunate idi 😔",
+      "Rey, papistoda !!!!"
+    ];
+
+    function checkAnswer() {
+      const input = document.getElementById('answer').value.toLowerCase().trim();
+      const response = document.getElementById('response');
+      if (input === 'echo') {
+        const msg = 'Addarakottav !!! Sare kani next dhi solve chey... 🤞🤞';
+        showMemeToast(msg);
+        launchPoppers();
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth;
+          response.classList.add('bounce-reveal');
+          document.querySelector('.fun-facts').style.display = 'block';
+          if (!document.getElementById('nextBtn')) {
+            const btn = document.createElement('button');
+            btn.textContent = '➡️ Go to Next Clue';
+            btn.id = 'nextBtn';
+            btn.style.marginTop = '1.5rem';
+            btn.style.padding = '0.75rem 1.5rem';
+            btn.style.background = '#3e2c23';
+            btn.style.color = '#fff';
+            btn.style.border = 'none';
+            btn.style.borderRadius = '8px';
+            btn.style.cursor = 'pointer';
+            btn.onclick = () => window.location.href = 'clue2.html';
+            document.body.appendChild(btn);
+          }
+        }, 2000);
+      } else {
+        const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        showMemeToast(msg);
+        setTimeout(() => {
+          response.textContent = msg;
+          response.classList.remove('bounce-reveal');
+          void response.offsetWidth;
+          response.classList.add('bounce-reveal');
+        }, 2000);
+        document.getElementById('answer').classList.add('shake');
+        setTimeout(() => document.getElementById('answer').classList.remove('shake'), 500);
+      }
+    }
+
+    function showMemeToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function launchPoppers(count = 40) {
+      const emojis = ["❤️", "✨", "🎉"];
+      for (let i = 0; i < count; i++) {
+        const popper = document.createElement("div");
+        popper.className = "popper";
+        popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        popper.style.left = `${Math.random() * window.innerWidth}px`;
+        popper.style.top = `${Math.random() * window.innerHeight}px`;
+        document.body.appendChild(popper);
+        setTimeout(() => popper.remove(), 1500);
+      }
+    }
+
+    const music = document.getElementById('bg-music');
+    const muteBtn = document.getElementById('mute-btn');
+    music.muted = localStorage.getItem('muted') === 'true';
+    muteBtn.addEventListener('click', () => {
+      music.muted = !music.muted;
+      localStorage.setItem('muted', music.muted);
+      muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+    });
+
+    document.addEventListener('click', () => {
+      music.play().catch(() => { });
+    }, { once: true });
+
+    function showHint() {
+      showMemeToast("Hint: I'm often heard but never seen 👻");
+    }
+    $1
+  </script>
+</body>
+
+</html>

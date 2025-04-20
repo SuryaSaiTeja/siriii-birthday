@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How Much They Love You 💗</title>
+    <style>
+        body {
+            background: #fff0f5;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding: 2rem 1rem;
+            color: #5e2a4f;
+        }
+
+        h1 {
+            color: #d63384;
+        }
+
+        input {
+            padding: 0.6rem;
+            margin: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            width: 200px;
+        }
+
+        button {
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            background: #e83e8c;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        #result {
+            margin-top: 2rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ad1457;
+        }
+
+        .meme {
+            margin-top: 1.5rem;
+            max-width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #popup {
+            animation: bounceIn 0.8s ease;
+            display: none;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #ffe0ec;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #c2185b;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.3);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+
+            70% {
+                transform: scale(0.9);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1000;
+            animation: sparkle-fly 2s ease forwards;
+        }
+
+        @keyframes sparkle-fly {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>💖 Universal Love Meter</h1>
+    <p>Enter anyone's name and see how much they love you!</p>
+    <input type="text" id="name" placeholder="Type a name">
+    <br>
+    <button onclick="calculateLove()">❤️ Check Love</button>
+    <div id="result"></div>
+    <img id="meme" class="meme" style="display:none;">
+    <div id="popup">Wondering why it's 100% every time? Because everyone loves you 💞</div>
+
+    <script>
+        let attemptCount = 0;
+
+        function calculateLove() {
+            const name = document.getElementById('name').value.trim();
+            const result = document.getElementById('result');
+            const meme = document.getElementById('meme');
+            const popup = document.getElementById('popup');
+
+            if (name) {
+                result.textContent = `💘 ${name} loves you 100%!`;
+                meme.style.display = 'block';
+                attemptCount++;
+
+                const messages = [
+                    "Confused why it’s always 100%? You’re just *that* lovable 😘",
+                    "Every name leads to 100%... because you're everyone’s favorite!",
+                    "No matter who it is, they’re smitten by you 💘",
+                    "Guess what? You’re universally loved. Deal with it 😌❤️",
+                    "100% every time? Because loving you isn’t optional!",
+                    "Truth bomb 💥 Everyone’s got a soft spot for you!",
+                    "It’s not rigged... you’re just impossible *not* to love 💫",
+                    "Oops. Spoiler alert: You’re everyone's favorite human 💕"
+                ];
+                if (attemptCount >= 3) {
+                    const random = Math.floor(Math.random() * messages.length);
+                    popup.style.display = 'none';
+                    void popup.offsetWidth; // force reflow to restart animation
+                    popup.textContent = messages[random];
+                    popup.style.display = 'block';
+                    launchSparkles()
+                }
+            } else {
+                result.textContent = 'Enter a name silly! 😅';
+                meme.style.display = 'none';
+            }
+        }
+        function launchSparkles(count = 50) {
+            const emojis = ["✨", "🌟", "💖", "💫", "💕"];
+            for (let i = 0; i < count; i++) {
+                const sparkle = document.createElement("div");
+                sparkle.className = "sparkle";
+                sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+                sparkle.style.bottom = `-${Math.random() * 50}px`; // randomize vertical start
+                sparkle.style.fontSize = `${1 + Math.random() * 2}rem`;
+                sparkle.style.opacity = Math.random().toFixed(1);
+                sparkle.style.animation = `sparkle-fly ${1.5 + Math.random()}s ease-out forwards`;
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 3000);
+            }
+        }
+
+    </script>
+
+<button onclick="window.location.href='photo-grid-puzzle.html'">
+    Next ➡️
+  </button>
+</body>
+
+</html>
