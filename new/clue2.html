@@ -34,10 +34,12 @@
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
-    input, button {
+    input,
+    button {
       font-size: 1.1rem;
       padding: 0.75rem;
     }
+
     input {
       margin-top: 1rem;
       border-radius: 6px;
@@ -56,12 +58,14 @@
     button:hover {
       background: #8e6b4d;
     }
+
     .footer {
       font-size: 0.9rem;
       color: #7c6f63;
       opacity: 0.8;
       margin-top: 1rem;
     }
+
     .toast {
       position: fixed;
       bottom: 2rem;
@@ -80,6 +84,7 @@
       max-width: 80%;
       text-align: center;
     }
+
     .popper {
       font-size: 2rem;
       animation: popperAnim 1.5s ease-out forwards;
@@ -89,14 +94,36 @@
     }
 
     @keyframes fadeInOut {
-      0% { opacity: 0; transform: translate(-50%, 30px); }
-      10% { opacity: 1; transform: translate(-50%, 0); }
-      90% { opacity: 1; }
-      100% { opacity: 0; transform: translate(-50%, 30px); }
+      0% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
+
+      10% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+
+      90% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate(-50%, 30px);
+      }
     }
+
     @keyframes popperAnim {
-      0% { transform: scale(0.5) translateY(0); opacity: 1; }
-      100% { transform: scale(1.5) translateY(-100px); opacity: 0; }
+      0% {
+        transform: scale(0.5) translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.5) translateY(-100px);
+        opacity: 0;
+      }
     }
 
     .bounce-reveal {
@@ -104,15 +131,39 @@
     }
 
     @keyframes bounceFadeIn {
-      0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-      60% { opacity: 1; transform: translateY(-5px) scale(1.02); }
-      100% { transform: translateY(0) scale(1); }
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+
+      60% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.02);
+      }
+
+      100% {
+        transform: translateY(0) scale(1);
+      }
     }
+
     @keyframes shake {
-      0%, 100% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-5px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-5px);
+      }
+
+      50% {
+        transform: translateX(5px);
+      }
+
+      75% {
+        transform: translateX(-5px);
+      }
     }
 
     input.shake {
@@ -139,10 +190,13 @@
     </p>
     <input id="answer" placeholder="Your answer here..." type="text" />
     <button onclick="checkAnswer()">Submit</button>
-    <button onclick="showHint()" style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡 Hint</button>
+    <button onclick="showHint()"
+      style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
+      Hint</button>
     <p id="response"></p>
   </div>
-  <div class="fun-facts" style="display:none; margin-top: 2rem; background: #fff7e8; padding: 1.5rem; border-radius: 12px; max-width: 500px; font-size: 0.95rem; color: #5e4a3b; box-shadow: 0 0 8px rgba(0,0,0,0.05);">
+  <div class="fun-facts"
+    style="display:none; margin-top: 2rem; background: #fff7e8; padding: 1.5rem; border-radius: 12px; max-width: 500px; font-size: 0.95rem; color: #5e4a3b; box-shadow: 0 0 8px rgba(0,0,0,0.05);">
     <h3 style="margin-bottom: 1rem; color: #a07c5e;">🎉 Fun Fact</h3>
     <ul style="list-style: none; padding: 0;">
       <li>✨ The first riddle ever recorded was in ancient Babylon!</li>
@@ -150,24 +204,22 @@
       <li>🎂 You are currently unlocking love using logic. Mad combo.</li>
     </ul>
   </div>
-  $1Hint: Hint: I'm often found in cozy firesides 🔥</div>
   <script>
 
     const wrongAnswers = [
-      "Kaneesam daggaraki kuda raledu, Ms.Sherlock! 🕵️",
-      "Podukuni aadutunnava? 😴 Leguuu",
-      "Asssalu Kadhu, musukuni malli try chey 😂",
-      "Kaane kadhu. Konchem burra vaadu 🧠",
-      "Kadupu ki annam thintunnava gaddi thintunnava? Entaa answers? 🔪",
-      "Nuvvu cheppina answer vinagane server crash ayyindi 🖥️",
-      "Adhi kooda guess cheyyalekapothe ela ?? 🤔"
+      "Entamma annav ? Malli inkosari anu.. 🤔",
+      "Desam chaala klishta paristithi lo undhi 🙆‍♀️",
+      "Sir, to be frank, nakithe em ekkutaledhu 😐",
+      "Ive.. tagginchukunte, manchidi 🤨",
+      "Inka Chalu.. Poduko chinna 😪",
+      "Ilantivi chusinappude.. gundeni raayi cheskukovali 😳"
     ];
 
     function checkAnswer() {
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
       if (input === 'fire') {
-        const msg = 'Parledu, paiki ostav 👍👍👍';
+        const msg = '"Ayya Ayya Ayya... Kutta ramp ayya idi !!!",';
         //response.textContent = 'Parledu, paiki ostav 👍👍👍';
         showMemeToast(msg);
         launchPoppers();
@@ -177,20 +229,20 @@
           void response.offsetWidth; // this line triggers reflow
           response.classList.add('bounce-reveal');
           document.querySelector('.fun-facts').style.display = 'block';
-  if (!document.getElementById('nextBtn')) {
-    const btn = document.createElement('button');
-    btn.textContent = '➡️ Go to Next Clue';
-    btn.id = 'nextBtn';
-    btn.style.marginTop = '1.5rem';
-    btn.style.padding = '0.75rem 1.5rem';
-    btn.style.background = '#3e2c23';
-    btn.style.color = '#fff';
-    btn.style.border = 'none';
-    btn.style.borderRadius = '8px';
-    btn.style.cursor = 'pointer';
-    btn.onclick = () => window.location.href = 'clue3.html';
-    document.body.appendChild(btn);
-  }
+          if (!document.getElementById('nextBtn')) {
+            const btn = document.createElement('button');
+            btn.textContent = '➡️ Go to Next Clue';
+            btn.id = 'nextBtn';
+            btn.style.marginTop = '1.5rem';
+            btn.style.padding = '0.75rem 1.5rem';
+            btn.style.background = '#3e2c23';
+            btn.style.color = '#fff';
+            btn.style.border = 'none';
+            btn.style.borderRadius = '8px';
+            btn.style.cursor = 'pointer';
+            btn.onclick = () => window.location.href = 'clue3.html';
+            document.body.appendChild(btn);
+          }
         }, 2000);
       } else {
         const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
@@ -244,9 +296,9 @@
       music.play().catch(() => { });
     }, { once: true });
     function showHint() {
-  showMemeToast("Hint: I speak without a mouth, hear without ears. 🧠 Think echo!");
-}
-$1
+      showMemeToast("Hint: I'm often found in cozy firesides 🔥");
+    }
+    $1
 
 
   </script>
