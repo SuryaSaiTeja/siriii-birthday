@@ -1,160 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clue 5 - Photo Puzzle</title>
-  <style>
-    body {
-      background: #fff8f0;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
-      color: #3e2c23;
-    }
-    h2 {
-      margin-bottom: 1rem;
-    }
-    #puzzle {
-      width: 100%;
-      max-width: 360px;
-      margin: 2rem auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 2px;
-      aspect-ratio: 1 / 1;
-    }
-    .tile {
-      width: 100%;
-      height: 100%;
-      background-image: url('puzzle.jpg');
-      background-size: 300% 300%;
-      background-repeat: no-repeat;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-    }
-    .drag-over {
-      outline: 3px dashed #a07c5e;
-    }
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ffe0b3;
-      padding: 1rem 1.5rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-      font-weight: bold;
-      z-index: 999;
-    }
-    .popper {
-      font-size: 2rem;
-      animation: popperAnim 1.5s ease-out forwards;
-      position: fixed;
-      pointer-events: none;
-      z-index: 10000;
-    }
-    @keyframes popperAnim {
-      0% { transform: scale(0.5) translateY(0); opacity: 1; }
-      100% { transform: scale(1.5) translateY(-100px); opacity: 0; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clue 5 - Mobile Puzzle</title>
+    <style>
+        body {
+            background: #fff8f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+            color: #3e2c23;
+        }
+
+        h2 {
+            margin-bottom: 1rem;
+        }
+
+        #puzzle {
+            width: 100%;
+            max-width: 360px;
+            aspect-ratio: 1 / 1;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .tile {
+            width: 100%;
+            height: 100%;
+            background-image: url('puzzle.jpg');
+            background-size: 300% 300%;
+            background-repeat: no-repeat;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        .tile.selected {
+            outline: 3px solid #ff9900;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffe0b3;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            z-index: 999;
+        }
+
+        .popper {
+            font-size: 2rem;
+            animation: popperAnim 1.5s ease-out forwards;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        @keyframes popperAnim {
+            0% {
+                transform: scale(0.5) translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5) translateY(-100px);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
+
 <body>
-  <h2>🧩 Clue 5: Drag the Tiles to Solve!</h2>
-  <p>Arrange the tiles to complete the image and unlock the treasure! 💎</p>
-  <div id="puzzle"></div>
+    <h2>🧩 Clue 5: Tap to Solve the Puzzle!</h2>
 
-  <script>
-    const puzzle = document.getElementById('puzzle');
-    const tiles = [];
+    <button onclick="showHint()"
+        style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
+        Hint</button>
+    <div id="puzzle"></div>
 
-    for (let i = 0; i < 9; i++) {
-      const tile = document.createElement('div');
-      tile.className = 'tile';
-      tile.draggable = true;
-      tile.dataset.index = i;
-      const col = i % 3;
-      const row = Math.floor(i / 3);
-      tile.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
-      tiles.push(tile);
-    }
+    <script>
+        const puzzle = document.getElementById('puzzle');
+        let selectedTile = null;
+        const tiles = [];
 
-    shuffle(tiles);
-    tiles.forEach(tile => puzzle.appendChild(tile));
+        for (let i = 0; i < 9; i++) {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.dataset.index = i;
+            const col = i % 3;
+            const row = Math.floor(i / 3);
+            tile.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+            tile.addEventListener('click', () => handleTileClick(tile));
+            tiles.push(tile);
+        }
 
-    let dragged = null;
+        shuffle(tiles);
+        tiles.forEach(tile => puzzle.appendChild(tile));
 
-    puzzle.addEventListener('dragstart', e => {
-      dragged = e.target;
-    });
+        function handleTileClick(tile) {
+            if (selectedTile === tile) {
+                tile.classList.remove('selected');
+                selectedTile = null;
+                return;
+            }
 
-    puzzle.addEventListener('dragover', e => {
-      e.preventDefault();
-      if (e.target.classList.contains('tile')) {
-        e.target.classList.add('drag-over');
-      }
-    });
+            if (!selectedTile) {
+                selectedTile = tile;
+                tile.classList.add('selected');
+            } else {
+                swapTiles(selectedTile, tile);
+                selectedTile.classList.remove('selected');
+                selectedTile = null;
+                checkIfSolved();
+            }
+        }
 
-    puzzle.addEventListener('dragleave', e => {
-      if (e.target.classList.contains('tile')) {
-        e.target.classList.remove('drag-over');
-      }
-    });
+        function swapTiles(tileA, tileB) {
+            const cloneA = tileA.cloneNode(true);
+            const cloneB = tileB.cloneNode(true);
+            const idxA = [...puzzle.children].indexOf(tileA);
+            const idxB = [...puzzle.children].indexOf(tileB);
 
-    puzzle.addEventListener('drop', e => {
-      e.preventDefault();
-      if (e.target.classList.contains('tile') && dragged !== e.target) {
-        e.target.classList.remove('drag-over');
-        const draggedIndex = [...puzzle.children].indexOf(dragged);
-        const droppedIndex = [...puzzle.children].indexOf(e.target);
+            puzzle.replaceChild(cloneB, tileA);
+            puzzle.replaceChild(cloneA, tileB);
 
-        puzzle.insertBefore(dragged, puzzle.children[droppedIndex]);
-        puzzle.insertBefore(e.target, puzzle.children[draggedIndex]);
+            cloneB.addEventListener('click', () => handleTileClick(cloneB));
+            cloneA.addEventListener('click', () => handleTileClick(cloneA));
+        }
 
-        checkIfSolved();
-      }
-    });
+        function checkIfSolved() {
+            const current = [...puzzle.children];
+            const correct = current.every((tile, idx) => parseInt(tile.dataset.index) === idx);
+            if (correct) {
+                showToast("Surukuuu 🧠💥");
+                launchPoppers();
+                if (!document.getElementById('nextBtn')) {
+                    const btn = document.createElement('button');
+                    btn.id = 'nextBtn';
+                    btn.textContent = '➡️ Go to Final Surprise';
+                    btn.style.marginTop = '1.5rem';
+                    btn.style.padding = '0.75rem 1.5rem';
+                    btn.style.fontSize = '1rem';
+                    btn.style.background = '#3e2c23';
+                    btn.style.color = 'white';
+                    btn.style.border = 'none';
+                    btn.style.borderRadius = '8px';
+                    btn.style.cursor = 'pointer';
+                    btn.onclick = () => window.location.href = 'intermediate2.html';
+                    document.body.appendChild(btn);
+                }
+            }
+        }
 
-    function checkIfSolved() {
-      const current = [...puzzle.children];
-      const correct = current.every((tile, idx) => parseInt(tile.dataset.index) === idx);
-      if (correct) {
-        showToast("Nee puzzle brain ki dabbu kottali! 🧠💥");
-        launchPoppers();
-        setTimeout(() => window.location.href = 'intermediate2.html', 3000);
-      }
-    }
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
 
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
 
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = message;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 2500);
-    }
+        function launchPoppers(count = 60) {
+            const emojis = ["❤️", "✨", "🎉"];
+            for (let i = 0; i < count; i++) {
+                const popper = document.createElement("div");
+                popper.className = "popper";
+                popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                popper.style.left = `${Math.random() * window.innerWidth}px`;
+                popper.style.top = `${Math.random() * window.innerHeight}px`;
+                document.body.appendChild(popper);
+                setTimeout(() => popper.remove(), 1500);
+            }
+        }
 
-    function launchPoppers(count = 60) {
-      const emojis = ["❤️", "✨", "🎉"];
-      for (let i = 0; i < count; i++) {
-        const popper = document.createElement("div");
-        popper.className = "popper";
-        popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-        popper.style.left = `${Math.random() * window.innerWidth}px`;
-        popper.style.top = `${Math.random() * window.innerHeight}px`;
-        document.body.appendChild(popper);
-        setTimeout(() => popper.remove(), 1500);
-      }
-    }
-  </script>
+        function showHint() {
+            showToast("Ellu ellu !!!");
+        }
+    </script>
 </body>
+
 </html>
