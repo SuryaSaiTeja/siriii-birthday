@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You Are the Treasure</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto Mono', monospace;
+      background: linear-gradient(to bottom, #fdf6f0, #f4e1d2);
+      color: #3e2c23;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .loader {
+      font-size: 1.5rem;
+      color: #a07c5e;
+      animation: fadeIn 1s ease-in-out forwards;
+    }
+
+    .content {
+      display: none;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #a07c5e;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    .message,
+    .reveal {
+      font-size: 1.1rem;
+      max-width: 90%;
+      margin: 1rem auto;
+      opacity: 0;
+      animation: fadeInUp 1.2s ease-in-out forwards;
+    }
+
+    .reveal {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #a07c5e;
+      margin-top: 2rem;
+      animation-delay: 2.5s;
+    }
+
+    .btn {
+      margin-top: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background-color: #a07c5e;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      opacity: 0;
+      animation: fadeIn 1.2s ease-in-out forwards;
+      animation-delay: 4s;
+    }
+
+    .btn:hover {
+      background-color: #8e6b4d;
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: gold;
+      border-radius: 50%;
+      animation: sparkle 3s infinite ease-in-out;
+    }
+
+    @keyframes sparkle {
+
+      0%,
+      100% {
+        transform: scale(0);
+        opacity: 0;
+      }
+
+      50% {
+        transform: scale(1.5);
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <div class="loader" id="loader">🔓 Unlocking the treasure...</div>
+
+  <div class="content" id="content">
+    <h1>✨ The Final Treasure ✨</h1>
+    <p class="message">You followed the clues, solved every riddle...</p>
+    <p class="message">And now, you've reached the end.</p>
+    <div class="reveal">The treasure is... <br><span style="font-size: 2rem; color: #d49c6c;">You 💛🪷</span></div>
+    <button class="btn" onclick="goToFinal()">Click Here</button>
+    <div class="footer" style="margin-top: 3rem; font-size: 0.9rem; color: #856c5a; opacity: 0.8;">
+      Crafted with love &lt;/&gt; by someone who truly treasures you 🌸
+    </div>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      requestAnimationFrame(() => {
+        const loader = document.getElementById('loader');
+        const content = document.getElementById('content');
+        loader.style.display = 'none';
+        content.style.display = 'block';
+      });
+    }, 3000);
+
+
+    // Sparkles
+    for (let i = 0; i < 25; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.top = Math.random() * 100 + '%';
+      sparkle.style.left = Math.random() * 100 + '%';
+      sparkle.style.animationDelay = (Math.random() * 5) + 's';
+      document.body.appendChild(sparkle);
+    }
+
+    function goToFinal() {
+      localStorage.setItem('playMusic', 'true');
+      window.location.href = 'siri_new.html';
+    }
+
+  </script>
+</body>
+
+</html>
