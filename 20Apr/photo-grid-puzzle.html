@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clue 5 - Mobile Puzzle</title>
+    <title>Clue 5 - Puzzle</title>
     <style>
         body {
             background: #fff8f0;
@@ -12,10 +12,6 @@
             text-align: center;
             padding: 2rem;
             color: #3e2c23;
-        }
-
-        h2 {
-            margin-bottom: 1rem;
         }
 
         #puzzle {
@@ -30,14 +26,14 @@
         }
 
         .tile {
-            width: 100%;
-            height: 100%;
-            background-image: url('puzzle.jpg');
-            background-size: 300% 300%;
+            /* background-image will be set dynamically */
+            background-size: cover;
             background-repeat: no-repeat;
             border: 1px solid #ccc;
             box-sizing: border-box;
             user-select: none;
+            width: 100%;
+            height: 100%;
         }
 
         .tile.selected {
@@ -80,15 +76,7 @@
 </head>
 
 <body>
-    <audio id="bg-music" loop preload="auto">
-        <source src="love.mp3" type="audio/mpeg" />
-    </audio>
-    <button id="mute-btn"
-        style="position: fixed; top: 1rem; left: 1rem; background: #ffffffcc; color: #3e2c23; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; z-index: 1000;">
-        🔊 Mute
-    </button>
     <h2>🧩 Clue 5: Tap to Solve the Puzzle!</h2>
-
     <button onclick="showHint()"
         style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
         Hint</button>
@@ -98,20 +86,45 @@
         const puzzle = document.getElementById('puzzle');
         let selectedTile = null;
         const tiles = [];
+        const imageOptions = ['siripic1.jpeg', 'siripic2.jpeg', 'puzzle.jpg'];
+        let currentImageIndex = 0;
+        let selectedImage = imageOptions[currentImageIndex];
 
         for (let i = 0; i < 9; i++) {
             const tile = document.createElement('div');
             tile.className = 'tile';
+            tile.style.backgroundImage = `url('${selectedImage}')`;
+            tile.style.backgroundSize = '300% 300%';
             tile.dataset.index = i;
             const col = i % 3;
             const row = Math.floor(i / 3);
-            tile.style.backgroundPosition = `${col * 50}% ${row * 50}%`;
+            tile.style.backgroundPosition = `${col * 100 / 2}% ${row * 100 / 2}%`;
             tile.addEventListener('click', () => handleTileClick(tile));
             tiles.push(tile);
         }
 
-        shuffle(tiles);
-        tiles.forEach(tile => puzzle.appendChild(tile));
+        function loadPuzzle() {
+            puzzle.innerHTML = '';
+            tiles.length = 0;
+            for (let i = 0; i < 9; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.style.backgroundImage = `url('${selectedImage}')`;
+                tile.style.backgroundSize = '300% 300%';
+                tile.dataset.index = i;
+                const col = i % 3;
+                const row = Math.floor(i / 3);
+                tile.style.backgroundPosition = `${col * 100 / 2}% ${row * 100 / 2}%`;
+                tile.addEventListener('click', () => handleTileClick(tile));
+                tiles.push(tile);
+            }
+            shuffle(tiles);
+            tiles.forEach(tile => puzzle.appendChild(tile));
+            const existingNextBtn = document.getElementById('nextBtn');
+            if (existingNextBtn) existingNextBtn.remove();
+        }
+
+        loadPuzzle();
 
         function handleTileClick(tile) {
             if (selectedTile === tile) {
@@ -153,7 +166,7 @@
                 if (!document.getElementById('nextBtn')) {
                     const btn = document.createElement('button');
                     btn.id = 'nextBtn';
-                    btn.textContent = '➡️ Next';
+                    btn.textContent = currentImageIndex < imageOptions.length - 1 ? '➡️ Next Puzzle' : '➡️ Continue';
                     btn.style.marginTop = '1.5rem';
                     btn.style.padding = '0.75rem 1.5rem';
                     btn.style.fontSize = '1rem';
@@ -162,11 +175,20 @@
                     btn.style.border = 'none';
                     btn.style.borderRadius = '8px';
                     btn.style.cursor = 'pointer';
-                    btn.onclick = () => window.location.href = 'doodle-wall.html';
+                    btn.onclick = () => {
+                        if (currentImageIndex < imageOptions.length - 1) {
+                            currentImageIndex++;
+                            selectedImage = imageOptions[currentImageIndex];
+                            loadPuzzle();
+                        } else {
+                            window.location.href = 'doodle-wall.html';
+                        }
+                    };
                     document.body.appendChild(btn);
                 }
             }
         }
+
 
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -175,10 +197,15 @@
             }
         }
 
-        function showToast(message) {
+        function showToast(message = null) {
+            const messages = [
+                "Surukuuu !! 🧠",
+                "Super ra chintuuu !!! 🤌",
+                "Idi ammoru katthi roiii 🔪"
+            ];
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.textContent = message;
+            toast.textContent = message || messages[Math.floor(Math.random() * messages.length)];
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2500);
         }
@@ -195,31 +222,6 @@
                 setTimeout(() => popper.remove(), 1500);
             }
         }
-        const music = document.getElementById('bg-music');
-        const muteBtn = document.getElementById('mute-btn');
-
-        const savedMute = localStorage.getItem('muted') === 'true';
-        music.muted = savedMute;
-        muteBtn.textContent = savedMute ? '🔇 Unmute' : '🔊 Mute';
-
-        let musicStarted = false;
-        window.addEventListener('scroll', () => {
-            if (!musicStarted) {
-                music.play().catch(() => { });
-                musicStarted = true;
-            }
-        }, { once: true });
-
-        muteBtn.addEventListener('click', () => {
-            music.muted = !music.muted;
-            localStorage.setItem('muted', music.muted);
-            muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
-        });
-
-        document.addEventListener('click', () => {
-            music.play().catch(() => { });
-        }, { once: true });
-
 
         function showHint() {
             showToast("Ellu ellu !!!");
