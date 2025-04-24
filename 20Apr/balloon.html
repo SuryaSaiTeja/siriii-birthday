@@ -23,6 +23,14 @@
             z-index: 2;
         }
 
+        h2,
+        p,
+        button {
+            position: relative;
+            z-index: 2;
+        }
+
+
         #balloon-container {
             position: absolute;
             top: 0;
@@ -144,7 +152,7 @@
             balloon.className = 'balloon';
             balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
             balloon.style.left = `${Math.random() * 90}%`;
-            balloon.style.top = `${Math.random() * 80}%`;
+            balloon.style.top = `${Math.random() * 60 + 10}%`; // ensures top: 10% to 70%
             balloon.style.animationDuration = `${2 + Math.random() * 2}s`;
 
             balloon.onclick = () => {
