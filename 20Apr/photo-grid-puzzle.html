@@ -76,6 +76,15 @@
 </head>
 
 <body>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="love.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="mute-btn"
+        style="position: fixed; top: 1rem; left: 1rem; background: #ffffffcc; color: #3e2c23; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; z-index: 1000;">
+        🔊 Mute
+    </button>
+
     <h2>🧩 Clue 5: Tap to Solve the Puzzle!</h2>
     <button onclick="showHint()"
         style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
@@ -89,6 +98,7 @@
         const imageOptions = ['siripic1.jpeg', 'siripic2.jpeg', 'puzzle.jpg'];
         let currentImageIndex = 0;
         let selectedImage = imageOptions[currentImageIndex];
+        let toastIndex = 0;
 
         for (let i = 0; i < 9; i++) {
             const tile = document.createElement('div');
@@ -161,7 +171,7 @@
             const current = [...puzzle.children];
             const correct = current.every((tile, idx) => parseInt(tile.dataset.index) === idx);
             if (correct) {
-                showToast("Surukuuu 🧠💥");
+                showToast();
                 launchPoppers();
                 if (!document.getElementById('nextBtn')) {
                     const btn = document.createElement('button');
@@ -196,16 +206,17 @@
                 [array[i], array[j]] = [array[j], array[i]];
             }
         }
-
-        function showToast(message = null) {
-            const messages = [
+        const messages = [
                 "Surukuuu !! 🧠",
                 "Super ra chintuuu !!! 🤌",
                 "Idi ammoru katthi roiii 🔪"
             ];
+
+        function showToast(message = null) {
             const toast = document.createElement('div');
             toast.className = 'toast';
-            toast.textContent = message || messages[Math.floor(Math.random() * messages.length)];
+            toast.textContent = message || messages[toastIndex];
+            toastIndex = (toastIndex + 1) % messages.length;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2500);
         }
@@ -226,6 +237,18 @@
         function showHint() {
             showToast("Ellu ellu !!!");
         }
+
+        // Music toggle
+        const music = document.getElementById('bg-music');
+        const muteBtn = document.getElementById('mute-btn');
+        let musicStarted = false;
+        muteBtn.addEventListener('click', () => {
+            music.muted = !music.muted;
+            muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+        });
+        window.addEventListener('click', () => {
+            if (!musicStarted) { music.play().catch(() => { }); musicStarted = true; }
+        }, { once: true });
     </script>
 </body>
 
