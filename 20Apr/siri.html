@@ -249,9 +249,9 @@
             /* Make sure it doesn't overlap mute button or other fixed elements */
             @media (max-width: 768px) {
                 .scroll-indicator {
-                    bottom: 1rem;
-                    right: 1rem;
-                    font-size: 2.5rem;
+                    bottom: 2rem;
+                    right: 2rem;
+                    font-size: 3rem;
                 }
             }
 
@@ -386,7 +386,7 @@
 
 <body>
     <audio id="bg-music" loop="" preload="auto">
-        <source src="chirunama-2-cut.mp3" type="audio/mpeg" />
+        <source src="emito-cut.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
     </audio>
     <button id="mute-btn"
@@ -483,11 +483,11 @@
                 const line = document.createElement('div');
                 line.textContent = lines[i++];
                 consoleEl.appendChild(line);
-                setTimeout(typeLine, 1000);
+                setTimeout(typeLine, 2000);
             } else {
                 const message = document.getElementById('birthday-message');
                 message.style.display = 'block';
-                setTimeout(() => message.style.opacity = '1', 100);
+                setTimeout(() => message.style.opacity = '1', 1000);
             }
         }
 
