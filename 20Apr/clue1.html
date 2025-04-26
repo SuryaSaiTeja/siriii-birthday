@@ -195,9 +195,7 @@
     style="display:none; margin-top: 2rem; background: #fff7e8; padding: 1.5rem; border-radius: 12px; max-width: 500px; font-size: 0.95rem; color: #5e4a3b; box-shadow: 0 0 8px rgba(0,0,0,0.05);">
     <h3 style="margin-bottom: 1rem; color: #a07c5e;">🎉 Fun Fact</h3>
     <ul style="list-style: none; padding: 0;">
-      <li>✨ The first riddle ever recorded was in ancient Babylon!</li>
-      <li>😆 The word 'echo' comes from a Greek myth about a nymph who faded away!</li>
-      <li>🎂 You are currently unlocking love using logic. Mad combo.</li>
+      <li>🗣️ The word *echo* comes from Greek mythology — Echo was a nymph who could only repeat the words of others.</li>
     </ul>
   </div>
 
@@ -211,6 +209,7 @@
       "Chaala unfortunate idi 😔",
       "Rey, papistoda !!!!"
     ];
+    let wrongAnswerIndex = 0;
 
     function checkAnswer() {
       const input = document.getElementById('answer').value.toLowerCase().trim();
@@ -241,7 +240,10 @@
           }
         }, 2000);
       } else {
-        const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        //const msg = wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+        const msg = wrongAnswers[wrongAnswerIndex];
+        wrongAnswerIndex = (wrongAnswerIndex + 1) % wrongAnswers.length;
+
         showMemeToast(msg);
         setTimeout(() => {
           response.textContent = msg;
