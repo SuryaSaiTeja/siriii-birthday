@@ -117,7 +117,7 @@
         🔊 Mute
     </button>
     <h1>💖 Universal Love Meter</h1>
-    <p>Enter anyone's name and see how much they love you!</p>
+    <p>Enter anyone's name and see how much they love you! Try as many as you like. The more, the merrier !!</p>
     <input type="text" id="name" placeholder="Type a name">
     <br>
     <button onclick="calculateLove()">❤️ Check Love</button>
@@ -127,6 +127,7 @@
 
     <script>
         let attemptCount = 0;
+        let messageIndex = 0;
 
         function calculateLove() {
             const name = document.getElementById('name').value.trim();
@@ -142,16 +143,17 @@
                 const messages = [
                     "Confused why it’s always 100%? You’re just *that* lovable 😘",
                     "Every name leads to 100%... because you're everyone’s favorite!",
-                    "Guess what? You’re universally loved. Deal with it 😌❤️",
                     "100% every time? Because loving you isn’t optional!",
                     "It’s not rigged... you’re just impossible *not* to love 💫",
                     "Oops. Spoiler alert: You’re everyone's favorite human 💕"
                 ];
                 if (attemptCount >= 3) {
-                    const random = Math.floor(Math.random() * messages.length);
+                    
+                    //const random = Math.floor(Math.random() * messages.length);
                     popup.style.display = 'none';
                     void popup.offsetWidth; // force reflow to restart animation
-                    popup.textContent = messages[random];
+                    popup.textContent = messages[messageIndex];
+                    messageIndex = (messageIndex + 1) % messages.length;
                     popup.style.display = 'block';
                     launchSparkles()
                 }
