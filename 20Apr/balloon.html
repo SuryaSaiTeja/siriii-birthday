@@ -135,7 +135,7 @@
         const screenRatio = (window.innerWidth * window.innerHeight) / (360 * 640); // baseline: small mobile screen
         const balloonCount = Math.min(Math.floor(12 * screenRatio), 25); // max 25 balloons
         const correctIndex = Math.floor(Math.random() * balloonCount);
-
+        let wrongAnswerIndex = 0;
 
 
         const colors = ['#ffb3ba', '#bae1ff', '#baffc9', '#ffffba', '#ffc9de', '#d5baff'];
@@ -163,7 +163,9 @@
                         window.location.href = 'intermediate.html';
                     }, 3000);
                 } else {
-                    const msg = memes[Math.floor(Math.random() * memes.length)];
+                    const msg = memes[wrongAnswerIndex];
+                    wrongAnswerIndex = (wrongAnswerIndex + 1) % memes.length;
+                    //const msg = memes[Math.floor(Math.random() * memes.length)];
                     showToast(msg);
                 }
             };
