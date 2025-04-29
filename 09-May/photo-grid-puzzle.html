@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clue 5 - Puzzle</title>
+    <style>
+        body {
+            background: #fff8f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 2rem;
+            color: #3e2c23;
+        }
+
+        #puzzle {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
+            margin: 2rem auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 2px;
+        }
+
+        .tile {
+            /* background-image will be set dynamically */
+            background-size: cover;
+            background-repeat: no-repeat;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            user-select: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .tile.selected {
+            outline: 3px solid #ff9900;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffe0b3;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+            z-index: 999;
+        }
+
+        .popper {
+            font-size: 2rem;
+            animation: popperAnim 1.5s ease-out forwards;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        @keyframes popperAnim {
+            0% {
+                transform: scale(0.5) translateY(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5) translateY(-100px);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="love.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="mute-btn"
+        style="position: fixed; top: 1rem; left: 1rem; background: #ffffffcc; color: #3e2c23; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; z-index: 1000;">
+        🔊 Mute
+    </button>
+
+    <h2>🧩 Clue 5: Tap to Solve the Puzzle!</h2>
+    <button onclick="showHint()"
+        style="margin-top: 1rem; background: #f0e0c0; color: #3e2c23; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; font-size: 0.9rem;">💡
+        Hint</button>
+    <div id="puzzle"></div>
+
+    <script>
+        const puzzle = document.getElementById('puzzle');
+        let selectedTile = null;
+        const tiles = [];
+        const imageOptions = ['siri_02.jpeg', 'siri_05.jpeg', 'puzzle.jpg'];
+        let currentImageIndex = 0;
+        let selectedImage = imageOptions[currentImageIndex];
+        let toastIndex = 0;
+
+        for (let i = 0; i < 9; i++) {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.style.backgroundImage = `url('${selectedImage}')`;
+            tile.style.backgroundSize = '300% 300%';
+            tile.dataset.index = i;
+            const col = i % 3;
+            const row = Math.floor(i / 3);
+            tile.style.backgroundPosition = `${col * 100 / 2}% ${row * 100 / 2}%`;
+            tile.addEventListener('click', () => handleTileClick(tile));
+            tiles.push(tile);
+        }
+
+        function loadPuzzle() {
+            puzzle.innerHTML = '';
+            tiles.length = 0;
+            for (let i = 0; i < 9; i++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                tile.style.backgroundImage = `url('${selectedImage}')`;
+                tile.style.backgroundSize = '300% 300%';
+                tile.dataset.index = i;
+                const col = i % 3;
+                const row = Math.floor(i / 3);
+                tile.style.backgroundPosition = `${col * 100 / 2}% ${row * 100 / 2}%`;
+                tile.addEventListener('click', () => handleTileClick(tile));
+                tiles.push(tile);
+            }
+            shuffle(tiles);
+            tiles.forEach(tile => puzzle.appendChild(tile));
+            const existingNextBtn = document.getElementById('nextBtn');
+            if (existingNextBtn) existingNextBtn.remove();
+        }
+
+        loadPuzzle();
+
+        function handleTileClick(tile) {
+            if (selectedTile === tile) {
+                tile.classList.remove('selected');
+                selectedTile = null;
+                return;
+            }
+
+            if (!selectedTile) {
+                selectedTile = tile;
+                tile.classList.add('selected');
+            } else {
+                swapTiles(selectedTile, tile);
+                selectedTile.classList.remove('selected');
+                selectedTile = null;
+                checkIfSolved();
+            }
+        }
+
+        function swapTiles(tileA, tileB) {
+            const cloneA = tileA.cloneNode(true);
+            const cloneB = tileB.cloneNode(true);
+            const idxA = [...puzzle.children].indexOf(tileA);
+            const idxB = [...puzzle.children].indexOf(tileB);
+
+            puzzle.replaceChild(cloneB, tileA);
+            puzzle.replaceChild(cloneA, tileB);
+
+            cloneB.addEventListener('click', () => handleTileClick(cloneB));
+            cloneA.addEventListener('click', () => handleTileClick(cloneA));
+        }
+
+        function checkIfSolved() {
+            const current = [...puzzle.children];
+            const correct = current.every((tile, idx) => parseInt(tile.dataset.index) === idx);
+            if (correct) {
+                showToast();
+                launchPoppers();
+                if (!document.getElementById('nextBtn')) {
+                    const btn = document.createElement('button');
+                    btn.id = 'nextBtn';
+                    btn.textContent = currentImageIndex < imageOptions.length - 1 ? '➡️ Next Puzzle' : '➡️ Continue';
+                    btn.style.marginTop = '1.5rem';
+                    btn.style.padding = '0.75rem 1.5rem';
+                    btn.style.fontSize = '1rem';
+                    btn.style.background = '#3e2c23';
+                    btn.style.color = 'white';
+                    btn.style.border = 'none';
+                    btn.style.borderRadius = '8px';
+                    btn.style.cursor = 'pointer';
+                    btn.onclick = () => {
+                        if (currentImageIndex < imageOptions.length - 1) {
+                            currentImageIndex++;
+                            selectedImage = imageOptions[currentImageIndex];
+                            loadPuzzle();
+                        } else {
+                            window.location.href = 'doodle-wall.html';
+                        }
+                    };
+                    document.body.appendChild(btn);
+                }
+            }
+        }
+
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        const messages = [
+                "Surukuuu !! 🧠",
+                "Super ra chintuuu !!! 🤌",
+                "Idi ammoru katthi roiii 🔪"
+            ];
+
+        function showToast(message = null) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message || messages[toastIndex];
+            toastIndex = (toastIndex + 1) % messages.length;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 2500);
+        }
+
+        function launchPoppers(count = 60) {
+            const emojis = ["❤️", "✨", "🎉"];
+            for (let i = 0; i < count; i++) {
+                const popper = document.createElement("div");
+                popper.className = "popper";
+                popper.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                popper.style.left = `${Math.random() * window.innerWidth}px`;
+                popper.style.top = `${Math.random() * window.innerHeight}px`;
+                document.body.appendChild(popper);
+                setTimeout(() => popper.remove(), 1500);
+            }
+        }
+
+        function showHint() {
+            showToast("Ellu ellu !!!");
+        }
+
+        // Music toggle
+        const music = document.getElementById('bg-music');
+        const muteBtn = document.getElementById('mute-btn');
+        let musicStarted = false;
+        muteBtn.addEventListener('click', () => {
+            music.muted = !music.muted;
+            muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+        });
+        window.addEventListener('click', () => {
+            if (!musicStarted) { music.play().catch(() => { }); musicStarted = true; }
+        }, { once: true });
+    </script>
+</body>
+
+</html>
