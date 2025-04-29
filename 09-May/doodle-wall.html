@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doodle Wall 🎨</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 1rem;
+            font-family: 'Segoe UI', sans-serif;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            background-color: #f8f3e8;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: #3e2c23;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+
+        canvas {
+            border: 2px solid #a07c5e;
+            background: transparent;
+            touch-action: none;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .controls {
+            margin: 1rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        button,
+        input[type="color"],
+        input[type="range"],
+        select {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button {
+            background: #a07c5e;
+            color: white;
+        }
+
+        button:hover {
+            background: #8e6b4d;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 0.85rem;
+            color: #7c6f63;
+            opacity: 0.8;
+        }
+
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎨 Doodle Something Cute!</h1>
+    <canvas id="canvas" width="360" height="360"></canvas>
+
+    <div class="controls">
+        <label>🎨 <input type="color" id="color" value="#000000" /></label>
+        <label>🖌️ <input type="range" id="brush" min="1" max="20" value="4" /></label>
+        <button onclick="undoLast()">↩️ Undo</button>
+        <button onclick="clearCanvas()">❌ Clear</button>
+        <button onclick="saveCanvas()">💾 Save (No Background)</button>
+        <select id="bg-color">
+            <option value="#ffffff">White BG</option>
+            <option value="#f8f3e8">Paper BG</option>
+            <option value="#ffe0ec">Soft Pink</option>
+            <option value="#e6f7ff">Sky Blue</option>
+        </select>
+        <button onclick="saveWithBg()">💾 Save with BG</button>
+    </div>
+
+    <button onclick="goNext()">➡️ Continue</button>
+    <canvas id="merged-canvas" width="360" height="360" style="display:none;"></canvas>
+    <canvas id="confetti" class="confetti"></canvas>
+
+    <audio id="bg-music" loop preload="auto">
+        <source src="love.mp3" type="audio/mpeg" />
+    </audio>
+    <button id="mute-btn"
+        style="position: fixed; top: 1rem; left: 1rem; background: #ffffffcc; color: #3e2c23; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; z-index: 1000;">
+        🔊 Mute
+    </button>
+
+    <div class="footer">Crafted with love &lt;/&gt; by Suriya 😎</div>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+        let paths = [];
+        let currentPath = [];
+        const colorPicker = document.getElementById("color");
+        const brushSlider = document.getElementById("brush");
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            return e.touches ?
+                { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top } :
+                { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        function startDraw(e) {
+            drawing = true;
+            currentPath = [];
+
+            ctx.beginPath(); // 🛠️ start a new drawing path
+            const pos = getPos(e);
+            ctx.moveTo(pos.x, pos.y); // 🛠️ move to the initial point immediately
+            currentPath.push({
+                x: pos.x,
+                y: pos.y,
+                color: colorPicker.value,
+                width: brushSlider.value
+            });
+        }
+
+        function endDraw() { drawing = false; ctx.beginPath(); if (currentPath.length) paths.push(currentPath); }
+        function draw(e) {
+            if (!drawing) return;
+            e.preventDefault();
+            const pos = getPos(e);
+            ctx.lineWidth = brushSlider.value;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = colorPicker.value;
+
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+
+            currentPath.push({
+                x: pos.x,
+                y: pos.y,
+                color: ctx.strokeStyle,
+                width: ctx.lineWidth
+            });
+        }
+
+
+        function clearCanvas() { paths = []; redrawCanvas(); }
+        function undoLast() { paths.pop(); redrawCanvas(); }
+        function redrawCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            paths.forEach(path => {
+                ctx.beginPath();
+                path.forEach((point, i) => {
+                    ctx.strokeStyle = point.color;
+                    ctx.lineWidth = point.width;
+                    if (i === 0) ctx.moveTo(point.x, point.y);
+                    else { ctx.lineTo(point.x, point.y); ctx.stroke(); }
+                });
+                ctx.closePath();
+            });
+        }
+
+        function saveCanvas() {
+            const link = document.createElement("a");
+            link.download = "my-doodle.png";
+            link.href = canvas.toDataURL();
+            link.click();
+            launchConfetti();
+        }
+
+        function saveWithBg() {
+            const bgCanvas = document.getElementById("merged-canvas");
+            const bgCtx = bgCanvas.getContext("2d");
+            const bgColor = document.getElementById("bg-color").value;
+
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgCtx.fillStyle = bgColor;
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgCtx.drawImage(canvas, 0, 0);
+
+            const link = document.createElement("a");
+            link.download = "my-doodle-bg.png";
+            link.href = bgCanvas.toDataURL();
+            link.click();
+            launchConfetti();
+        }
+
+        function goNext() {
+            window.location.href = "balloon.html";
+        }
+
+        canvas.addEventListener("mousedown", startDraw);
+        canvas.addEventListener("mouseup", endDraw);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseout", endDraw);
+
+        canvas.addEventListener("touchstart", startDraw, { passive: false });
+        canvas.addEventListener("touchend", endDraw, { passive: false });
+        canvas.addEventListener("touchmove", draw, { passive: false });
+
+        // Music toggle
+        const music = document.getElementById('bg-music');
+        const muteBtn = document.getElementById('mute-btn');
+        let musicStarted = false;
+        muteBtn.addEventListener('click', () => {
+            music.muted = !music.muted;
+            muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+        });
+        window.addEventListener('click', () => {
+            if (!musicStarted) { music.play().catch(() => { }); musicStarted = true; }
+        }, { once: true });
+
+        // Confetti 🎉
+        const confettiCanvas = document.getElementById("confetti");
+        const cctx = confettiCanvas.getContext("2d");
+        let W = confettiCanvas.width = window.innerWidth;
+        let H = confettiCanvas.height = window.innerHeight;
+        let particles = [], confettiAnimationId;
+
+        function launchConfetti() {
+            particles = [];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: Math.random() * W,
+                    y: Math.random() * H,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * 100,
+                    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+                    tilt: Math.random() * 10 - 10,
+                    tiltAngle: 0,
+                    tiltAngleIncremental: Math.random() * 0.1 + 0.05
+                });
+            }
+            animateConfetti();
+            setTimeout(() => {
+                cancelAnimationFrame(confettiAnimationId);
+                cctx.clearRect(0, 0, W, H);
+            }, 5000);
+        }
+
+        function animateConfetti() {
+            drawConfetti();
+            updateConfetti();
+            confettiAnimationId = requestAnimationFrame(animateConfetti);
+        }
+
+        function drawConfetti() {
+            cctx.clearRect(0, 0, W, H);
+            particles.forEach(p => {
+                cctx.beginPath();
+                cctx.lineWidth = p.r / 2;
+                cctx.strokeStyle = p.color;
+                cctx.moveTo(p.x + p.tilt + p.r / 4, p.y);
+                cctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+                cctx.stroke();
+            });
+        }
+
+        function updateConfetti() {
+            particles.forEach(p => {
+                p.y += Math.cos(p.d) + 1 + p.r / 2;
+                p.tiltAngle += p.tiltAngleIncremental;
+                p.tilt = Math.sin(p.tiltAngle) * 15;
+                if (p.y > H) {
+                    p.x = Math.random() * W;
+                    p.y = -20;
+                }
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            W = confettiCanvas.width = window.innerWidth;
+            H = confettiCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+
+</html>
