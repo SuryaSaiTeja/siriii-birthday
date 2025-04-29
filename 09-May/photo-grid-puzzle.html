@@ -78,7 +78,7 @@
 <body>
 
     <audio id="bg-music" loop preload="auto">
-        <source src="love.mp3" type="audio/mpeg" />
+        <source src="audio/love.mp3" type="audio/mpeg" />
     </audio>
     <button id="mute-btn"
         style="position: fixed; top: 1rem; left: 1rem; background: #ffffffcc; color: #3e2c23; border: none; padding: 0.6rem 1rem; border-radius: 8px; font-size: 1rem; cursor: pointer; z-index: 1000;">
@@ -95,7 +95,7 @@
         const puzzle = document.getElementById('puzzle');
         let selectedTile = null;
         const tiles = [];
-        const imageOptions = ['siri_02.jpeg', 'siri_05.jpeg', 'puzzle.jpg'];
+        const imageOptions = ['images/siri_02.jpeg', 'images/siri_05.jpeg', 'images/puzzle.jpg'];
         let currentImageIndex = 0;
         let selectedImage = imageOptions[currentImageIndex];
         let toastIndex = 0;
