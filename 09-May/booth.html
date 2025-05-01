@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Photobooth</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Satisfy', cursive;
+      background: linear-gradient(to bottom right, #fff0f5, #fdf6e3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      color: #ff6f91;
+    }
+    p.description {
+      font-size: 1.2rem;
+      color: #6b4e4e;
+      text-align: center;
+      max-width: 500px;
+    }
+    #frame {
+      background: #fff;
+      border: 14px solid #eee;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+      padding: 1rem;
+      border-radius: 16px;
+      position: relative;
+    
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 3/4;
+      border: 12px solid #fff;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      margin-bottom: 1rem;
+      overflow: hidden;
+      position: relative;
+    }
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    button {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ff6f91;
+      color: white;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #ff4f7d;
+    }
+    canvas {
+      display: none;
+    }
+    #status {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #d36c6c;
+    }
+  
+    a.whatsapp-btn {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    a.whatsapp-btn:hover {
+      background: #1ebe5d;
+    }
+    #mute-btn {
+      background: #fff0f0;
+      color: #3e2c23;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+.replay-btn {
+  margin-top: 2rem;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  background: #ffd166;
+  color: #5b3c00;
+  text-decoration: none;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+}
+.replay-btn:hover {
+  background: #ffb703;
+}
+</style>
+
+
+</head>
+<body>
+  <h1>📸 Capture the moments</h1>
+  <p class="description">Now it’s your turn – capture what your heart is saying after this magical treasure hunt! 💖</p>
+  <div id="frame">
+    <video id="video" autoplay playsinline></video>
+    <canvas id="canvas"></canvas>
+  </div>
+  <button id="captureBtn">📸 Capture</button>
+  <div id="status">Photo 1 of 3</div>
+<a id="whatsappShare" class="whatsapp-btn" target="_blank" style="display:none; margin-top: 1rem;">📤 Share via WhatsApp</a>
+<button id="mute-btn" style="position: fixed; top: 1rem; left: 1rem; z-index: 1000;">🔊 Mute</button>
+<audio id="shutter-sound" src="audio/camera.mp3" preload="auto"></audio>
+<audio id="bg-music" autoplay loop>
+  <source src="audio/darling-love.mp3" type="audio/mpeg">
+</audio>
+
+  <script>
+    const video = document.getElementById("video");
+    const canvas = document.getElementById("canvas");
+    const captureBtn = document.getElementById("captureBtn");
+    const statusText = document.getElementById("status");
+const shutterSound = document.getElementById("shutter-sound");
+
+    let captures = [];
+
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      video.srcObject = stream;
+    }).catch(err => alert("Camera access error: " + err));
+
+    captureBtn.addEventListener("click", () => {
+      if (video.videoWidth === 0 || video.videoHeight === 0) {
+        alert("Camera not ready yet!");
+        return;
+      }
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext("2d");
+      shutterSound.play();
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      captures.push(canvas.toDataURL("image/png"));
+
+      if (captures.length < 3) {
+        statusText.textContent = `Photo ${captures.length + 1} of 3`;
+      } else {
+        statusText.textContent = "Preparing your photo strip...";
+
+        const stripCanvas = document.createElement("canvas");
+        const w = canvas.width;
+        const h = canvas.height;
+        const stripHeight = (h + 40) * 3 + 40;
+
+        stripCanvas.width = w;
+        stripCanvas.height = stripHeight;
+
+        const stripCtx = stripCanvas.getContext("2d");
+        stripCtx.fillStyle = "#ffffff";
+        stripCtx.fillRect(0, 0, w, stripHeight);
+
+        const messages = [
+              "You're glowing ✨",
+              "This is joy 💕",
+              "Memories captured 🎞️",
+              "Priceless reaction 😍",
+              "That smile! 😄",
+              "Just wow 🥹",
+              "Heart full of love 💗",
+              "Look at that grin 🥰",
+              "This moment matters 💖"
+            ];
+            const picked = messages.sort(() => 0.5 - Math.random()).slice(0, 3);
+            captures.forEach((dataUrl, i) => {
+              const img = new Image();
+              img.src = dataUrl;
+              img.onload = () => {
+                const padding = 20;
+                const imageX = padding;
+                const imageY = i * (h + padding * 2) + padding;
+                stripCtx.drawImage(img, imageX, imageY, w - padding * 2, h);
+                stripCtx.fillStyle = "#444";
+                stripCtx.font = "28px Satisfy";
+                stripCtx.textAlign = "center";
+                stripCtx.fillText(picked[i], w / 2, imageY + h + 30);
+            if (i === 2) {
+              const finalUrl = stripCanvas.toDataURL("image/png");
+              const link = document.createElement("a");
+              link.href = finalUrl;
+              link.download = "photostrip.png";
+              link.click();
+              shareToWhatsApp(finalUrl);
+              statusText.textContent = "Downloaded your strip! 🎉";
+              captures = [];
+              statusText.textContent = "Photo 1 of 3";
+            }
+          }
+        });
+      }
+    });
+  
+    const whatsappShare = document.getElementById("whatsappShare");
+    const music = document.getElementById("bg-music");
+    const muteBtn = document.getElementById("mute-btn");
+    music.muted = localStorage.getItem('muted') === 'true';
+    muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+    muteBtn.addEventListener('click', () => {
+      music.muted = !music.muted;
+      localStorage.setItem('muted', music.muted);
+      muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔊 Mute';
+    });
+    document.addEventListener('click', () => {
+      music.play().catch(() => {});
+    }, { once: true });
+
+    function shareToWhatsApp(url) {
+      whatsappShare.href = `https://wa.me/?text=Check%20out%20my%20photo%20strip!%20${encodeURIComponent(url)}`;
+      whatsappShare.style.display = "inline-block";
+    }
+</script>
+
+
+  <a href="start.html" class="replay-btn">🔁 Play the Treasure Hunt Again</a>
+</body>
+
+</html>
