@@ -175,8 +175,8 @@
         <p style="color: #d36c6c; font-size: 1.1rem;">Processing your photo strip...</p>
     </div>
     <div id="status">Photo 1 of 3</div>
-    <a id="whatsappShare" style="display:none;" class="whatsapp-btn" target="_blank"
-        style="display:none; margin-top: 1rem;">📤 Share via WhatsApp</a>
+    <!--<a id="whatsappShare" style="display:none;" class="whatsapp-btn" target="_blank"
+        style="display:none; margin-top: 1rem;">📤 Share via WhatsApp</a>-->
     <button id="mute-btn" style="position: fixed; top: 1rem; left: 1rem; z-index: 1000;">🔊 Mute</button>
     <audio id="shutter-sound" src="audio/capture.mp3" preload="auto"></audio>
     <audio id="bg-music" autoplay loop>
@@ -259,7 +259,7 @@
                             link.href = finalUrl;
                             link.download = `photostrip-${Math.floor(Math.random() * 100000)}.png`;
                             link.click();
-                            shareToWhatsApp(finalUrl);
+                            //shareToWhatsApp(finalUrl);
                             statusText.textContent = "Downloaded your strip! 🎉";
                             captures = [];
                             launchConfetti();
@@ -379,6 +379,11 @@
 
     </script>
     <a href="start.html" class="replay-btn">🔁 Play the Treasure Hunt Again</a>
+    <a href="https://wa.me/?text=Hey! I just completed the treasure hunt. Here's how I feel: " target="_blank"
+        class="replay-btn" style="background: #25D366; color: white; margin-top: 1rem;">
+        💬 Share what you feel about this
+    </a>
+
 </body>
 
 </html>
