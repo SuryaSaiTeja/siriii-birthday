@@ -257,7 +257,8 @@
                             const finalUrl = stripCanvas.toDataURL("image/png");
                             const link = document.createElement("a");
                             link.href = finalUrl;
-                            link.download = `photostrip-${Math.floor(Math.random() * 100000)}.png`;
+                            const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+                            link.download = `photobooth-${timestamp}.png`;
                             link.click();
                             //shareToWhatsApp(finalUrl);
                             statusText.textContent = "Downloaded your strip! 🎉";

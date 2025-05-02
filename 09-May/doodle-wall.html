@@ -180,11 +180,13 @@
 
         function saveCanvas() {
             const link = document.createElement("a");
-            link.download = "my-doodle.png";
+            const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+            link.download = `my-doodle-${timestamp}.png`;
             link.href = canvas.toDataURL();
             link.click();
             launchConfetti();
         }
+
 
         function saveWithBg() {
             const bgCanvas = document.getElementById("merged-canvas");
@@ -197,11 +199,13 @@
             bgCtx.drawImage(canvas, 0, 0);
 
             const link = document.createElement("a");
-            link.download = "my-doodle-bg.png";
+            const timestamp = new Date().toISOString().replace(/[-:.]/g, "");
+            link.download = `my-doodle-bg-${timestamp}.png`;
             link.href = bgCanvas.toDataURL();
             link.click();
             launchConfetti();
         }
+
 
         function goNext() {
             window.location.href = "balloon.html";

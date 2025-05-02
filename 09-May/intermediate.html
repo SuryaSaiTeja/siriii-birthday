@@ -55,13 +55,7 @@
       animation: fadeInUp 1.2s ease-in-out forwards;
     }
 
-    .reveal {
-      font-size: 1.6rem;
-      font-weight: bold;
-      color: #a07c5e;
-      margin-top: 2rem;
-      animation-delay: 2.5s;
-    }
+
 
     .btn {
       margin-top: 2rem;
@@ -122,10 +116,63 @@
         transform: translateY(0);
       }
     }
+
+    .reveal {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #a07c5e;
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .typing {
+      display: inline-block;
+    }
+
+    .dots::after {
+      content: '';
+      animation: dots 1.5s steps(3, end) infinite;
+    }
+
+    .final-reveal {
+      font-size: 2rem;
+      color: #d49c6c;
+      margin-top: 1rem;
+      display: none;
+      opacity: 0;
+      animation: fadeInUp 1s ease-in-out forwards;
+    }
+
+    /* Dots animation */
+    @keyframes dots {
+      0% {
+        content: '';
+      }
+
+      33% {
+        content: '.';
+      }
+
+      66% {
+        content: '..';
+      }
+
+      100% {
+        content: '...';
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div id="overlay"
+    style="position: fixed; inset: 0; background: #fdf6f0; color: #a07c5e; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; font-family: 'Great Vibes', cursive; text-align: center;">
+    <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">🔐 Tap Here to Unlock the Treasure 🔐</h1>
+    <button onclick="revealTreasure()"
+      style="padding: 1rem 2rem; font-size: 1.2rem; background: #a07c5e; color: white; border: none; border-radius: 10px; cursor: pointer;">Tap
+      Here</button>
+  </div>
+
   <audio id="bg-music" loop preload="auto">
     <source src="audio/anand.mp3" type="audio/mpeg" />
   </audio>
@@ -136,26 +183,43 @@
 
   <div class="loader" id="loader">🔓 Unlocking the treasure...</div>
 
-  <div class="content" id="content">
+  <div class="content" id="content" style="display: none;">
     <h1>✨ The Final Treasure ✨</h1>
     <p class="message">You followed the clues, solved every riddle...</p>
     <p class="message">And now, you've reached the end.</p>
-    <div class="reveal">The treasure is... <br><span style="font-size: 2rem; color: #d49c6c;">You 💛🪷</span></div>
+
+    <div class="reveal">
+      <div class="typing">The treasure is<span class="dots"></span></div>
+      <div class="final-reveal">You 💛🪷</div>
+    </div>
+
     <button class="btn" onclick="goToFinal()">Click Here</button>
+
     <div class="footer" style="margin-top: 3rem; font-size: 0.9rem; color: #856c5a; opacity: 0.8;">
       Crafted with love &lt;/&gt; by someone who truly treasures you 🌸
     </div>
   </div>
 
   <script>
+    // Show content after loader
     setTimeout(() => {
-      requestAnimationFrame(() => {
-        const loader = document.getElementById('loader');
-        const content = document.getElementById('content');
-        loader.style.display = 'none';
-        content.style.display = 'block';
-      });
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+
+      // Reveal final treasure after 4s
+      setTimeout(() => {
+        const finalReveal = document.querySelector('.final-reveal');
+        finalReveal.style.display = 'block';
+
+        // stop dots animation
+        const dots = document.querySelector('.dots');
+        dots.classList.remove('dots');
+        dots.textContent = '...'; // show final static dots
+      }, 4000);
+
     }, 3000);
+
+
 
 
     // Sparkles
@@ -198,6 +262,11 @@
       music.play().catch(() => { });
     }, { once: true });
 
+    function revealTreasure() {
+      document.getElementById('overlay').style.display = 'none';
+      music.play().catch(() => { });
+      musicStarted = true;
+    }
 
   </script>
 </body>
