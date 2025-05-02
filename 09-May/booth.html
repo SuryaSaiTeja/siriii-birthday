@@ -247,7 +247,12 @@
                         const padding = 20;
                         const imageX = padding;
                         const imageY = i * (h + padding * 2) + padding;
-                        stripCtx.drawImage(img, imageX, imageY, w - padding * 2, h);
+                        const targetWidth = w - padding * 2;
+                        const aspectRatio = img.width / img.height;
+                        const targetHeight = targetWidth / aspectRatio;
+                        const offsetX = (w - targetWidth) / 2;
+                        stripCtx.drawImage(img, offsetX, imageY, targetWidth, targetHeight);
+
                         stripCtx.fillStyle = "#444";
                         stripCtx.font = "28px Satisfy";
                         stripCtx.textAlign = "center";
@@ -377,13 +382,18 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
         }, 5000);
 
+        const whatsappShareBtn = document.getElementById("whatsappShareBtn");
+        const shareMsg = "Hey! I just completed the treasure hunt 💖 What a ride!\nCheck it out yourself - https://suryasaiteja.github.io/siriii-birthday \n Here's How I feel About it: \n";
+        const encodedShare = encodeURIComponent(shareMsg);
+        whatsappShareBtn.href = `https://wa.me/?text=${encodedShare}`;
 
     </script>
     <a href="start.html" class="replay-btn">🔁 Play the Treasure Hunt Again</a>
-    <a href="https://wa.me/?text=Hey! I just completed the treasure hunt. Here's how I feel: " target="_blank"
-        class="replay-btn" style="background: #25D366; color: white; margin-top: 1rem;">
+    <a id="whatsappShareBtn" href="#" target="_blank" class="replay-btn"
+        style="background: #25D366; color: white; margin-top: 1rem;">
         💬 Share what you feel
     </a>
+
 
 </body>
 
