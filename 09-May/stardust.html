@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You Are Stardust</title>
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=DM+Serif+Display&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fffbe6;
+            font-family: 'Indie Flower', cursive;
+            padding: 1rem;
+        }
+
+        .paper {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 700px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            white-space: pre-wrap;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+
+        @keyframes typing {
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
+        }
+
+        @keyframes blink-caret {
+
+            from,
+            to {
+                border-color: transparent;
+            }
+
+            50% {
+                border-color: #fffbe6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .paper {
+                padding: 1.5rem;
+                font-size: 1rem;
+            }
+
+            #handwritten-text {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+        }
+
+        .typewriter span {
+            font-size: 1rem;
+        }
+
+        #handwritten-text {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .typewriter span {
+            font-size: 1rem;
+        }
+
+        .floating-star {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: floatStar 10s linear infinite;
+            opacity: 0.7;
+            z-index: 2;
+        }
+
+        @keyframes floatStar {
+            0% {
+                transform: translateY(100vh) scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .paper {
+                padding: 1rem;
+                padding-bottom: 3rem;
+            }
+        }
+    </style>
+    <style>
+        .sparkle {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            background-image: radial-gradient(#ffffffaa 1px, transparent 1px);
+            background-size: 3px 3px;
+            animation: twinkle 2s infinite ease-in-out alternate;
+            z-index: 1;
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+
+            to {
+                opacity: 0.4;
+                transform: scale(1.02);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sparkle"></div>
+    <div id="stars-container"></div>
+    <audio id="bg-music" autoplay loop>
+        <source src="audio/stardust.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const starsContainer = document.getElementById('stars-container');
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.classList.add('floating-star');
+                star.style.left = `${Math.random() * 100}vw`;
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.animationDelay = `${Math.random() * 10}s`;
+                starsContainer.appendChild(star);
+            }
+
+            const music = document.getElementById('bg-music');
+            document.addEventListener('click', () => {
+                music.play().catch(() => { });
+            }, { once: true });
+
+            const poem = `Look at your wrist —  
+those quiet, blue veins humming life beneath your skin.  
+Inside, blood flows rich with hemoglobin,  
+and hemoglobin holds iron.
+
+But iron…  
+iron is no ordinary thing.  
+It can only be born  
+in the furious heart of a dying star.
+
+So the iron in your veins  
+was forged in a cosmic fire  
+that burned before time remembered itself.
+
+You —  
+are not just a person.  
+You are a constellation collapsed into a soul.  
+You are galaxies wrapped in soft skin.  
+You are living, breathing stardust.  
+And if life ever feels too heavy,  
+if the days grow dark and the path unclear—  
+remember this:  
+even chaos can't unmake stardust.  
+The universe made you on purpose.  
+It still does.`;
+
+            const output = document.getElementById('handwritten-text');
+            const paper = document.getElementById('paper');
+            output.style.minHeight = '300px';
+
+            let index = 0;
+            function writePoem() {
+                if (index < poem.length) {
+                    output.textContent += poem[index];
+                    paper.scrollTop = paper.scrollHeight;
+                    index++;
+                    setTimeout(writePoem, 40);
+                } else {
+                    const nextBtn = document.getElementById('next-btn');
+                    if (nextBtn) nextBtn.style.display = 'inline-block';
+                }
+            }
+
+            writePoem();
+        });
+    </script>
+
+    <div class="paper" id="paper">
+        <div id="handwritten-text" style="white-space: pre-wrap; color: #fcefd2; font-size: 1.3rem; line-height: 1.9;">
+        </div>
+        <br><br>
+        <a href="photo-grid-puzzle.html"
+            style="display: inline-block; margin-top: 2rem; padding: 0.7rem 1.5rem; background-color: #ffd166; color: #5b3c00; text-decoration: none; border-radius: 8px; font-weight: bold; box-shadow: 0 3px 6px rgba(0,0,0,0.2); transition: background 0.3s ease; display: none;"
+            id="next-btn">
+            ➡️ Next Clue
+        </a>
+    </div>
+    <button id="mute-btn"
+        style="position: fixed; top: 20px; left: 20px; z-index: 10; background: rgba(255, 255, 255, 0.2); color: #fff; border: none; padding: 0.5rem 1rem; border-radius: 8px; font-family: 'Indie Flower', cursive; font-size: 1rem; cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.2);">
+        🔈 Mute
+    </button>
+    <script>
+        const muteBtn = document.getElementById('mute-btn');
+        muteBtn.addEventListener('click', () => {
+            const music = document.getElementById('bg-music');
+            music.muted = !music.muted;
+            muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔈 Mute';
+        });
+    </script>
+</body>
+
+</html>
