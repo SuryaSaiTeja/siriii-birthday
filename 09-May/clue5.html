@@ -186,7 +186,7 @@
   <div class="riddle-box">
     <h2>🕵️ Clue 5</h2>
     <p>
-      What begins with T, ends with T, and has T in it?
+      That one place where you met your recent best friend(s) for the first time ?
     </p>
     <input id="answer" placeholder="Your answer here..." type="text" />
     <button onclick="checkAnswer()">Submit</button>
@@ -199,7 +199,7 @@
     style="display:none; margin-top: 2rem; background: #fff7e8; padding: 1.5rem; border-radius: 12px; max-width: 500px; font-size: 0.95rem; color: #5e4a3b; box-shadow: 0 0 8px rgba(0,0,0,0.05);">
     <h3 style="margin-bottom: 1rem; color: #a07c5e;">🎉 Fun Fact</h3>
     <ul style="list-style: none; padding: 0;">
-      <li> Teapots date back to 10th-century China.</li>
+      <li> If you remember the place, then you would also remember our first shots.</li>
     </ul>
   </div>
   <script>
@@ -212,8 +212,8 @@
     function checkAnswer() {
       const input = document.getElementById('answer').value.toLowerCase().trim();
       const response = document.getElementById('response');
-      if (input === 'teapot') {
-        const msg = 'Tea taagutava Sirishaaa ☕';
+      if (input === 'vault') {
+        const msg = 'Its so easy, I know !!!!';
         //response.textContent = '🎉 Fantastic ! Superb ! Mind-blowing ! Unbelievable !!!';
         showMemeToast(msg);
         launchPoppers();
@@ -298,7 +298,7 @@
       music.play().catch(() => { });
     }, { once: true });
     function showHint() {
-      showMemeToast("Hint: I hold T, Quite literally.");
+      showMemeToast("Hint: No hints for this, don't mind.");
     }
     $1
 
