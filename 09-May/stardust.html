@@ -260,26 +260,22 @@ It still does.`;
         <br><br>
         <a href="photo-grid-puzzle.html" id="next-btn" style="
   display: none;
-  margin: 2rem auto 0;
-  padding: 0.6rem 1.2rem;
+  margin-top: 2rem;
+  padding: 0.5rem 1.2rem;
   background-color: #ffd166;
   color: #5b3c00;
   text-decoration: none;
-  border-radius: 12px;
-  font-family: 'Indie Flower', cursive;
-  font-size: 1.2rem;
+  border-radius: 6px;
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.6rem;
-  width: fit-content;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease, background 0.3s ease;
+  font-family: 'Indie Flower', cursive;
+  font-size: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+  text-align: center;
 ">
-            <span style="font-size: 1.3rem;">➡️</span>
-            <span>Next</span>
-        </a>
+  ✨ Next
+</a>
+
 
 
 
@@ -298,10 +294,8 @@ It still does.`;
             muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔈 Mute';
         });
 
-        if (nextBtn) {
-            nextBtn.style.display = 'flex';
-            nextBtn.classList.add('fade-in');
-        }
+        if (nextBtn) nextBtn.style.display = 'inline-block';
+
 
     </script>
 </body>
