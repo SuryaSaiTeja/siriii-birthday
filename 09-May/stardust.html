@@ -160,6 +160,27 @@
                 transform: scale(1.02);
             }
         }
+
+        #next-btn.fade-in {
+            animation: fadeInNext 1s ease forwards;
+        }
+
+        @keyframes fadeInNext {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        #next-btn:hover {
+            transform: scale(1.05);
+            background-color: #ffe089;
+        }
     </style>
 </head>
 
@@ -240,23 +261,27 @@ It still does.`;
         <a href="photo-grid-puzzle.html" id="next-btn" style="
   display: none;
   margin: 2rem auto 0;
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 1.2rem;
   background-color: #ffd166;
   color: #5b3c00;
   text-decoration: none;
-  border-radius: 10px;
-  font-weight: bold;
+  border-radius: 12px;
   font-family: 'Indie Flower', cursive;
   font-size: 1.2rem;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 0.6rem;
   width: fit-content;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease, background 0.3s ease;
 ">
-  <span style="font-size: 1.4rem; margin-right: 0.4rem;">➡️</span> Next
-</a>
+            <span style="font-size: 1.3rem;">➡️</span>
+            <span>Next</span>
+        </a>
+
+
 
 
 
@@ -272,6 +297,12 @@ It still does.`;
             music.muted = !music.muted;
             muteBtn.textContent = music.muted ? '🔇 Unmute' : '🔈 Mute';
         });
+
+        if (nextBtn) {
+            nextBtn.style.display = 'flex';
+            nextBtn.classList.add('fade-in');
+        }
+
     </script>
 </body>
 
