@@ -262,7 +262,9 @@
                         stripCtx.fillStyle = "#444";
                         stripCtx.font = "28px Satisfy";
                         stripCtx.textAlign = "center";
-                        stripCtx.fillText(picked[i], w / 2, imageY + h + 30);
+                        const captionY = imageY + h + padding + 10;  // padding is 20, so this puts text in center gap
+                        stripCtx.fillText(picked[i], w / 2, captionY);
+
                         loaded++;
                         if (loaded === 3) {
                             const finalUrl = stripCanvas.toDataURL("image/png");
@@ -280,6 +282,8 @@
                         }
                     }
                 });
+
+
             }
         });
 
